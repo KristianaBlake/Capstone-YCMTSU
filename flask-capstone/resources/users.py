@@ -105,4 +105,25 @@ def logout():
 		'message': "Successfully logged out {}".format(username)
 	})
 
+# administrator login to see all submissions
+@users.route('/submissions', methods=["GET"])
+def list_all_submissions():
+	if current_user.username == 'administrator':
+		# declare payload variable
+		payload = request.get_json()
+		# select all the submissions
+		submission_instances = models.User.select()
+		# loop through all the submission ids (conver to dictionaries)
+		submission_instances_dict = [model_to_dict(submissions) for submissions in submission_instances]
+		# return the list of submission dicts
+		return jsonify(data=submission_instances_dict, status={
+			'code': 200,
+			'message': "you will be able to see all the story submissions from users"
+			})
+	else: 
+		return jsonify(data={}, status={
+			'code': 401,
+			'message': "you will NOT be able to see all the story submissions from users"
+			})
+
 
