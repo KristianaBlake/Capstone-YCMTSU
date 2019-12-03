@@ -12,7 +12,7 @@ stories = Blueprint('stories', 'stories')
 # user dashboard, where use can see stories submitted 
 @stories.route('/', methods=["GET"])
 @login_required
-def list_stories():
+def list_stories_by_username():
 	try: 
 		payload = request.get_json()
 		#models.Story.select() is taking all of the data from the Story model and storing it into the story_instance variable
@@ -35,4 +35,4 @@ def list_stories():
 @stories.route('/<category>', methods=["GET"])
 def show_story_by_category(category):
 	payload = request.get_json()
-	
+	# models.Story.select() is taking all of the data fromt he Story model and storing it into the course_instances variable 
