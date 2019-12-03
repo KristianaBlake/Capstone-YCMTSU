@@ -10,11 +10,10 @@ from playhouse.shortcuts import model_to_dict
 submissions = Blueprint('submissions', 'submissions')
 
 #route to admin dashboard to get list of submissions waiting approval 
-
 @submissions.route('/', methods=["GET"])
 # the admin must be logged in 
 @login_required
-def show_submissions()
+def show_submissions():
 	if current_user.username == 'administrator':
 		#declar payload variable 
 		payload = request.get_json()
@@ -33,6 +32,22 @@ def show_submissions()
 			'code': 500, 
 			'message': 'oops not good'
 			}), 500
+
+# admin approve a post 
+@submissions.route('/<submission_id>', methods=["POST"])
+@login_required
+def post_approved(submission_id):
+	if current_user.username == 'administrator':
+		payload = request.get_json()
+		submission_instances = models.Submission.select().where(models.Submission.id == submission_id)
+		submission_instances_dict = [model_to_dict(submissions) for submissions in submission_instances]
+		return jsonify(data=model_to_dict(model.Submission.get_by_id(submission_id)), "message": "submission was posted successfully"), 200
+	else:
+		return jsonify(data={}, status={"code": 403, "message": "The message cann't post."}), 403
+
+
+
+
 
 
 

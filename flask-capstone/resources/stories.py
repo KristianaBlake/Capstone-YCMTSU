@@ -20,7 +20,7 @@ def list_stories_by_username():
 		# loop through the Story Model Data (story_istance) and converting to dictionaries for Python to read 
 		story_instances_dict = [model_to_dict(stories) for stories in story_instances]
 		# return the data 
-		return jsonify(data=course_instances_dict, status={
+		return jsonify(data=story_instances_dict, status={
 			'code': 200,
 			'message': 'Success'
 			}), 200
@@ -34,5 +34,19 @@ def list_stories_by_username():
 # shows stories under category 
 @stories.route('/<category>', methods=["GET"])
 def show_story_by_category(category):
-	payload = request.get_json()
-	# models.Story.select() is taking all of the data fromt he Story model and storing it into the course_instances variable 
+	try: 
+		payload = request.get_json()
+		# models.Story.select() is taking all of the data fromt he Story model and storing it into the course_instances variable 
+		story_instance = models.Story.select().where(models.Story.category == category)
+		story_instances_dict = [model_to_dict(stories) for stories in story_instances]
+		print(story_instances_dict)
+		return jsonify(data=story_instances_dict, status={
+			'code': 200,
+			'message': 'Success'
+			}), 200
+	except: 
+
+		return jsonify(data={}, status={
+			'code': 500,
+			'message': 'oops not good'
+			}), 500
