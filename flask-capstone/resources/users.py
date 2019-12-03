@@ -8,7 +8,7 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 
 from flask_login import login_user, current_user, logout_user, login_required 
 
-from playhourse.shortcuts import model_to_dict 
+from playhouse.shortcuts import model_to_dict 
 
 users = Blueprint('users', 'users')
 
@@ -43,29 +43,29 @@ def register():
 						"message": "A user with this email already exists"}
 				), 401
 
-	except DoesNotExist:
+		except DoesNotExist:
 
-		# if the user was not already in the database 
-		payload['password'] = generate_password_hash(payload['password'])
+			# if the user was not already in the database 
+			payload['password'] = generate_password_hash(payload['password'])
 
-		# spread operator
-		user = models.User.create(**payload)
+			# spread operator
+			user = models.User.create(**payload)
 
-		# this logs in user 
+			# this logs in user 
 
-		login_user(user)
+			login_user(user)
 
-		# makes into dictionary 
-		user_dict = model_to_dict(user)
+			# makes into dictionary 
+			user_dict = model_to_dict(user)
 
-		# delete password
-		del user_dict['password']
+			# delete password
+			del user_dict['password']
 
-		# return good response 
-		return jsonify(
-			data=user_dict,
-			status={"code": 201, "message": "Successfully registered {}".format(user_dict['name'])}
-		), 201
+			# return good response 
+			return jsonify(
+				data=user_dict,
+				status={"code": 201, "message": "Successfully registered {}".format(user_dict['name'])}
+			), 201
 
 # login route 
 @users.route('/login', methods=['POST'])

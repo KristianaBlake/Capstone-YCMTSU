@@ -26,7 +26,7 @@ def show_submissions():
 			'code': 200,
 			'message': 'Success'
 			}), 200
-	except: 
+	else: 
 		# return error message if data cannot be processed 
 		return jsonify(data={}, status={
 			'code': 500, 
@@ -41,7 +41,7 @@ def post_approved(submission_id):
 		payload = request.get_json()
 		submission_instances = models.Submission.select().where(models.Submission.id == submission_id)
 		submission_instances_dict = [model_to_dict(submissions) for submissions in submission_instances]
-		return jsonify(data=model_to_dict(model.Submission.get_by_id(submission_id)), "message": "submission was posted successfully"), 200
+		return jsonify(data=model_to_dict(model.Submission.get_by_id(submission_id)), status={"message": "submission was posted successfully"}), 200
 	else:
 		return jsonify(data={}, status={"code": 403, "message": "The message cann't post."}), 403
 

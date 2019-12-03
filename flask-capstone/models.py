@@ -12,7 +12,7 @@ class User(UserMixin, Model):
 	email = CharField(unique=True) ##why not use EmailField? 
 	password = CharField()
 
-	class Meta 
+	class Meta: 
 		database = DATABASE
 		db_table = 'user_table'
 
@@ -26,16 +26,16 @@ class Story(Model):
 		database = DATABASE
 
 
-class Sumbission(Model):
+class Submission(Model):
 	status = CharField(unique=True)
-	anonymous = Boolean
+	anonymous = BooleanField(unique=True)
 	story_id = ForeignKeyField(Story, backref='stories')
 	user_id = ForeignKeyField(User, backref='users')
 
 	class Meta:
-		database: DATABASE
+		database = DATABASE
 
-def initialize();
+def initialize():
 	# connect to the database
 	DATABASE.connect()
 	DATABASE.create_tables([User, Story, Submission], safe=True)

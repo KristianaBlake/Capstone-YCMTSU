@@ -18,7 +18,7 @@ app.secret_key = "this is a secret key only the user can see"
 
 login_manager = LoginManager()
 
-Login_manager.init_app(app)
+login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
