@@ -39,6 +39,12 @@ app.register_blueprint(stories, url_prefix='/api/v1/stories')
 app.register_blueprint(submissions, url_prefix='/api/v1/submissions')
 app.register_blueprint(users, url_prefix='/api/v1/users')
 
+@app.before_request 
+def before_request():
+    """Connect to the database before each request."""
+    g.db = models.DATABASE
+    g.db.connect()
+
 @app.after_request
 def after_request(response):
 	# "Close the database connection after each request"

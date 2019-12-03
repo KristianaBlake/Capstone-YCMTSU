@@ -17,7 +17,7 @@ def register():
 	# grab the user 
 	payload = request.get_json()
 	# make the email lowercase 
-	payload('email').lower()
+	payload['email'].lower()
 
 	try: 
 		# query/check their username against the database 
@@ -78,13 +78,13 @@ def login():
 		# convert user into dictionary 
 		user_dict = model_to_dict(user)
 		# check users passwrod using bcrypt
-		if(check_password_hash(padawan_dict['password'], payload['password'])):
+		if(check_password_hash(user_dict['password'], payload['password'])):
 			# log in the user 
 			login_user(user)
 			del user_dict['password']
 			# return good news
 			return jsonify(data=user_dict, status={'code': 200, 'message': "Successfully logged in {}".format(
-				user_dict['full_name'])}), 200
+				user_dict['username'])}), 200
 		else:
 			# return the error 
 			return jsonfiy(data={}, status={'code': 401, 'message': 'Email or password is incorrect'}), 401
