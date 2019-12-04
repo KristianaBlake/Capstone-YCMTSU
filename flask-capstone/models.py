@@ -30,7 +30,7 @@ class Submission(Model):
 	category = CharField(unique=True)
 	status = CharField(unique=True)
 	anonymous = BooleanField(unique=True)
-	user_id = ForeignKeyField(User, backref='submissions') #kris.submissions
+	user_id = ForeignKeyField(User, backref='submissions') 
 
 	class Meta:
 		database = DATABASE

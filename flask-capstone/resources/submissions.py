@@ -35,7 +35,7 @@ def admin_dashboard():
 
 
 # User can update a submission 
-@submission.route('/<submission_id', method=["PUT"])
+@submissions.route('/<submission_id', methods=["PUT"])
 @login_required
 def update_submission(submission_id):
 	try:
@@ -47,7 +47,7 @@ def update_submission(submission_id):
 		return jsonify(data={}, status={"code": 401, "message": "Could not find submission. Not updated successfully."}), 401
 
 # User can delete a submission from their dashboard
-@submission_route('/<submission_id', method=["Delete"])
+@submissions.route('/<submission_id', method=["Delete"])
 @login_required
 def update_submission(submission_id):
 	try:
@@ -59,7 +59,7 @@ def update_submission(submission_id):
 
 
 # User dashboard where use can see their own submissions/stories
-@submission_route('/<user_id>, method=["GET')
+@submissions.route('/<user_id>', methods=["GET"])
 @login_required
 def user_dashboard(user_id):
 	try:
@@ -82,9 +82,17 @@ def user_dashboard(user_id):
 				}), 500
 
 
-
-
-
+# User submits story for approval (CREATE)
+@sumbissions.route('/', methods=["POST"])
+@login_required
+def submit_submission():
+	try: 
+		payload.request.get_json()
+		submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous = payload["anonymous"])
+		submission_dict = model_to_dict(submission)
+		return jsonify(data=submission_dict, status={"code": 201, "message": "Submission created successfully!"}), 201
+	else:
+		return jsonify(data={}, status={"code": 404, "message": "Submission could not be created"}), 404
 
 
 
