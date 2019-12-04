@@ -73,8 +73,7 @@ def login():
 	payload = request.get_json()
 	try:
 		#look up user by username 
-		user = models.User.get(
-			models.User.username == payload['username'])
+		user = models.User.get(models.User.username == payload['username'])
 		# convert user into dictionary 
 		user_dict = model_to_dict(user)
 		# check users passwrod using bcrypt
@@ -106,7 +105,7 @@ def logout():
 	})
 
 # administrator login to see all submissions
-@users.route('/submissions', methods=["GET"])
+@users.route('/admin-login', methods=["GET"])
 def list_all_submissions():
 	payload = request.get_json()
 	if current_user.username == 'administrator':
