@@ -13,8 +13,9 @@ stories = Blueprint('stories', 'stories')
 @stories.route('/', methods=["GET"])
 @login_required
 def list_stories_by_username():
+	payload = request.get_json()
 	try: 
-		payload = request.get_json()
+		
 		#models.Story.select() is taking all of the data from the Story model and storing it into the story_instance variable
 		story_instance = models.Story.select()
 		# loop through the Story Model Data (story_istance) and converting to dictionaries for Python to read 
@@ -34,8 +35,9 @@ def list_stories_by_username():
 # shows stories under category 
 @stories.route('/<category>', methods=["GET"])
 def show_story_by_category(category):
+	payload = request.get_json()
 	try: 
-		payload = request.get_json()
+		
 		# models.Story.select() is taking all of the data fromt he Story model and storing it into the course_instances variable 
 		story_instance = models.Story.select().where(models.Story.category == category)
 		story_instances_dict = [model_to_dict(stories) for stories in story_instances]
@@ -51,12 +53,13 @@ def show_story_by_category(category):
 			'message': 'oops not good'
 			}), 500
 
-# admin approve a post (CREATE)
+# submission changes to a story 
 @stories.route('/<submission_id>', methods=["POST"])
 @login_required
 def post_approved(submission_id):
+	payload = request.get_json()
 	if current_user.username == 'administrator':
-		payload = request.get_json()
+		
 		story_instances = models.Story.select().where(models.Story.submission_id == submission_id)
 		# model to dict of story instances = the q
 		story_instances_dict = [model_to_dict(stories) for stories in story_instances]
