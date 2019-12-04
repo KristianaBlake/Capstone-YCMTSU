@@ -35,7 +35,7 @@ def admin_dashboard():
 
 
 # User can update a submission 
-@submissions.route('/<submission_id', methods=["PUT"])
+@submissions.route('/<submission_id>', methods=["PUT"])
 @login_required
 def update_submission(submission_id):
 	try:
@@ -47,7 +47,7 @@ def update_submission(submission_id):
 		return jsonify(data={}, status={"code": 304, "message": "Could not find submission. Not updated successfully."}), 304
 
 # User can delete a submission from their dashboard
-@submissions.route('/<submission_id', method=["Delete"])
+@submissions.route('/<submission_id>', method=["Delete"])
 @login_required
 def update_submission(submission_id):
 	try:
@@ -93,6 +93,23 @@ def submit_submission():
 		return jsonify(data=submission_dict, status={"code": 201, "message": "Submission created successfully!"}), 201
 	else:
 		return jsonify(data={}, status={"code": 404, "message": "Submission could not be created"}), 404
+
+# Admin approves a post (CREATE)
+@submissions.route('/<submission_id>', methods=["PUT"])
+@login_required
+def submission_approved(submission_id):
+	payload = request.get_json()
+	if current_user.username == 'administrator':
+		query = models.Submission.update({Sumbission.status: 'approved'}).where(id == submission_id)
+		query.execute()
+
+		return jsonify(data=model_to_dict(models.Submission.get_by_id(id)), status={"code": 200, "message": "Submission status has been updated to approved"}), 200
+	else: 
+		return jsonify(data={}, status={"code": 304, "message": "The submission was not updated to approved"}), 304
+		
+
+
+#Admin denies a post 
 
 
 
