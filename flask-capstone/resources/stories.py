@@ -15,11 +15,9 @@ stories = Blueprint('stories', 'stories')
 def list_stories_by_username():
 	payload = request.get_json()
 	try: 
-		
-		#models.Story.select() is taking all of the data from the Story model and storing it into the story_instance variable
 		story_instance = models.Story.select()
 		# loop through the Story Model Data (story_istance) and converting to dictionaries for Python to read 
-		story_instances_dict = [model_to_dict(stories) for stories in story_instances]
+		story_instance_dict = [model_to_dict(stories) for stories in story_instances]
 		# return the data 
 		return jsonify(data=story_instances_dict, status={
 			'code': 200,
@@ -37,11 +35,8 @@ def list_stories_by_username():
 def show_story_by_category(category):
 	payload = request.get_json()
 	try: 
-		
-		# models.Story.select() is taking all of the data fromt he Story model and storing it into the course_instances variable 
-		story_instance = models.Story.select().where(models.Story.category == category)
-		story_instances_dict = [model_to_dict(stories) for stories in story_instances]
-		print(story_instances_dict)
+		story_by_category = models.Story.select().where(models.Story.category == category)
+		story_dict = [model_to_dict(story) for story in story_by_category]
 		return jsonify(data=story_instances_dict, status={
 			'code': 200,
 			'message': 'Success'
