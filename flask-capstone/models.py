@@ -9,20 +9,12 @@ DATABASE = SqliteDatabase('users.sqlite')
 class User(UserMixin, Model):
 	name = CharField(unique=True)
 	username = CharField(unique=True)
-	email = CharField(unique=True) ##why not use EmailField? 
+	email = CharField(unique=True) 
 	password = CharField()
 
 	class Meta: 
 		database = DATABASE
 		db_table = 'user_table'
-
-class Story(Model):
-	created_date = DateTimeField(default=datetime.datetime.now)
-	submission_id = ForeignKeyField(Submissions, backref='stories')
-
-	class Meta:
-		database = DATABASE
-
 
 class Submission(Model):
 	title = CharField(unique=True)
@@ -35,6 +27,13 @@ class Submission(Model):
 	class Meta:
 		database = DATABASE
 
+class Story(Model):
+	created_date = DateTimeField(default=datetime.datetime.now)
+	submission_id = ForeignKeyField(Submission, backref='stories')
+
+	class Meta:
+		database = DATABASE
+		
 def initialize():
 	# connect to the database
 	DATABASE.connect()

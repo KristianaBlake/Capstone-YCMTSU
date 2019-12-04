@@ -20,8 +20,7 @@ def show_story_by_category(category):
 			'code': 200,
 			'message': 'Success!'
 			}), 200
-	except: 
-
+	except models.DoesNotExist:  
 		return jsonify(data={}, status={
 			'code': 500,
 			'message': 'oops not good'

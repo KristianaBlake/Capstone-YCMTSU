@@ -6,6 +6,8 @@ from flask_login import current_user, login_required
 
 from playhouse.shortcuts import model_to_dict
 
+from peewee import DoesNotExist
+
 #blueprint 
 submissions = Blueprint('submissions', 'submissions')
 
@@ -34,9 +36,9 @@ def admin_dashboard():
 
 
 # User can update a submission 
-@submissions.route('/<submission_id>', methods=["PUT"])
+@submissions.route('/<submission_id>/update', methods=["PUT"])
 @login_required
-def update_submission(submission_id):
+def resubmit_submission(submission_id):
 	payload = request.get_json()
 	try:
 		query = models.Submission.update(**payload).where(models.Submission.id == id)
@@ -46,14 +48,14 @@ def update_submission(submission_id):
 		return jsonify(data={}, status={"code": 304, "message": "Could not find submission. Not updated successfully."}), 304
 
 # User can delete a submission from their dashboard
-@submissions.route('/<submission_id>', method=["Delete"])
+@submissions.route('/<submission_id>/delete', methods=["Delete"])
 @login_required
-def update_submission(submission_id):
+def delete_submission(submission_id):
 	try:
 		query = moels.Submission.delete().where(models.Submission.id == id)
 		query.execute()
 		return jsonify(data="Sumbission was successfully deleted", status={"code": 200, "message": "Submission successfully delted"}), 200
-	else:
+	except models.DoesNotExist:
 		return jsonify(data={}, status={"code", 401, "message", "Sumbission was not deleted"}), 401
 
 
@@ -79,10 +81,12 @@ def user_dashboard(user_id):
 				'code': 500, 
 				'message': 'oops not good'
 				}), 500
+	except models.DoesNotExist:
+		return jsonify(data={}, status={"code", 500, "message", "Code isn't working"}), 500
 
 
 # User submits story for approval (CREATE)
-@sumbissions.route('/', methods=["POST"])
+@submissions.route('/', methods=["POST"])
 @login_required
 def submit_submission():
 	payload.request.get_json()
@@ -90,11 +94,11 @@ def submit_submission():
 		submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous = payload["anonymous"])
 		submission_dict = model_to_dict(submission)
 		return jsonify(data=submission_dict, status={"code": 201, "message": "Submission created successfully!"}), 201
-	else:
+	except models.DoesNotExist:
 		return jsonify(data={}, status={"code": 404, "message": "Submission could not be created"}), 404
 
 # Admin approves a post
-@submissions.route('/<submission_id>', methods=["PUT"])
+@submissions.route('/<submission_id>/approve', methods=["PUT"])
 @login_required
 def submission_approved(submission_id):
 	payload = request.get_json()
@@ -108,7 +112,7 @@ def submission_approved(submission_id):
 
 
 #Admin denies a post 
-@submissions.route('/<submission_id>', methods=["PUT"])
+@submissions.route('/<submission_id>/deny', methods=["PUT"])
 @login_required
 def submission_denied(submission_id):
 	payload = request.get_json()
