@@ -65,11 +65,11 @@ def user_dashboard(user_id):
 	try:
 		if current_user.id == user_id:
 			# models.Submission.select() is taking all of the data from the Sumbission model and storing it into the course_instances variable 
-			submission_instance = models.Submission.select()
+			all_submissions_by_user = models.Submission.select().where(Submission.user_id == user_id)
 			# loop through the Submission Model Data(submission_instances) and converting to dictionaries for Python to read
-			submission_instance_dict = [model_to_dict(submissions) for submissions in submission_instance]
+			submissions_by_user_dict = [model_to_dict(submissio) for submission in all_submissions_by_user]
 			# return the data 
-			return jsonify(data=submission_instance_dict, status={
+			return jsonify(data=submissions_by_user_dicy, status={
 				'code': 200,
 				'message': 'These are the submissions the user has created'
 				}), 200
@@ -87,7 +87,6 @@ def user_dashboard(user_id):
 def submit_submission():
 	payload.request.get_json()
 	try: 
-		
 		submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous = payload["anonymous"])
 		submission_dict = model_to_dict(submission)
 		return jsonify(data=submission_dict, status={"code": 201, "message": "Submission created successfully!"}), 201
@@ -102,7 +101,6 @@ def submission_approved(submission_id):
 	if current_user.username == 'administrator':
 		query = models.Submission.update({Sumbission.status: 'approved'}).where(id == submission_id)
 		query.execute()
-
 		return jsonify(data=model_to_dict(models.Submission.get_by_id(id)), status={"code": 200, "message": "Submission status has been updated to approved"}), 200
 	else: 
 		return jsonify(data={}, status={"code": 304, "message": "The submission status was not updated to approved"}), 304
