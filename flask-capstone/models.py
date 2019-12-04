@@ -17,9 +17,6 @@ class User(UserMixin, Model):
 		db_table = 'user_table'
 
 class Story(Model):
-	title = CharField(unique=True)
-	description = CharField(unique=True)
-	category = CharField(unique=True)
 	created_date = DateTimeField(default=datetime.datetime.now)
 	submission_id = ForeignKeyField(Submissions, backref='stories')
 
@@ -28,6 +25,9 @@ class Story(Model):
 
 
 class Submission(Model):
+	title = CharField(unique=True)
+	description = CharField(unique=True)
+	category = CharField(unique=True)
 	status = CharField(unique=True)
 	anonymous = BooleanField(unique=True)
 	user_id = ForeignKeyField(User, backref='submissions') #kris.submissions

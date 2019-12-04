@@ -50,3 +50,20 @@ def show_story_by_category(category):
 			'code': 500,
 			'message': 'oops not good'
 			}), 500
+
+# admin approve a post (CREATE)
+@stories.route('/<submission_id>', methods=["POST"])
+@login_required
+def post_approved(submission_id):
+	if current_user.username == 'administrator':
+		payload = request.get_json()
+		story_instances = models.Story.select().where(models.Story.submission_id == submission_id)
+		# model to dict of story instances = the q
+		story_instances_dict = [model_to_dict(stories) for stories in story_instances]
+		# query = something 
+		# then take the model to dict of that variable 
+		return jsonify(data=model_to_dict(model.Submission.get_by_id(submission_id)), status={"message": "submission was posted successfully"}), 200
+	else:
+		return jsonify(data={}, status={"code": 403, "message": "The message cann't post."}), 403
+
+
