@@ -105,12 +105,22 @@ def submission_approved(submission_id):
 
 		return jsonify(data=model_to_dict(models.Submission.get_by_id(id)), status={"code": 200, "message": "Submission status has been updated to approved"}), 200
 	else: 
-		return jsonify(data={}, status={"code": 304, "message": "The submission was not updated to approved"}), 304
+		return jsonify(data={}, status={"code": 304, "message": "The submission status was not updated to approved"}), 304
 		
 
 
 #Admin denies a post 
+@submissions.route('/<submission_id>', methods=["PUT"])
+@login_required
+def submission_denied(submission_id):
+	payload = request.get_json()
+	if current_user.username == 'administrator':
+		query = models.Submission.update({Sumbission.status: 'denied'}).where(id == submission_id)
+		query.execute()
 
+		return jsonify(data=model_to_dict(models.Submission.get_by_id(id)), status={"code": 200, "message": "Submission status has been updated to denied"}), 200
+	else: 
+		return jsonify(data={}, status={"code": 304, "message": "The submission status was not updated to denied"}), 304
 
 
 
