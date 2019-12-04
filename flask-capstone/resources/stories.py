@@ -58,15 +58,11 @@ def show_story_by_category(category):
 @login_required
 def post_approved(submission_id):
 	payload = request.get_json()
-	if current_user.username == 'administrator':
-		
-		story_instances = models.Story.select().where(models.Story.submission_id == submission_id)
-		# model to dict of story instances = the q
-		story_instances_dict = [model_to_dict(stories) for stories in story_instances]
-		# query = something 
-		# then take the model to dict of that variable 
-		return jsonify(data=model_to_dict(model.Submission.get_by_id(submission_id)), status={"message": "submission was posted successfully"}), 200
+	if (current_user.username == 'administrator' and Submission.status == 'approved'):
+		story = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous=payload["anonymous"])
+		story_dict = model_to_dict(story)
+		return jsonify(data=story_dict, status={"code": 201, "message": "Sumbission has been created to Story"}), 202
 	else:
-		return jsonify(data={}, status={"code": 403, "message": "The message cann't post."}), 403
+		return jsonify(data={}, status={"code": 304, "message": "The Submission was not created to a Story."}), 304
 
 
