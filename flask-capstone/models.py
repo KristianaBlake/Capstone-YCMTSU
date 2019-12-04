@@ -21,6 +21,7 @@ class Story(Model):
 	description = CharField(unique=True)
 	category = CharField(unique=True)
 	created_date = DateTimeField(default=datetime.datetime.now)
+	submission_id = ForeignKeyField(Submissions, backref='stories')
 
 	class Meta:
 		database = DATABASE
@@ -29,8 +30,7 @@ class Story(Model):
 class Submission(Model):
 	status = CharField(unique=True)
 	anonymous = BooleanField(unique=True)
-	story_id = ForeignKeyField(Story, backref='stories')
-	user_id = ForeignKeyField(User, backref='users')
+	user_id = ForeignKeyField(User, backref='submissions') #kris.submissions
 
 	class Meta:
 		database = DATABASE

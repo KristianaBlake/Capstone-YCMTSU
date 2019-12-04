@@ -9,6 +9,9 @@ from playhouse.shortcuts import model_to_dict
 #blueprint 
 submissions = Blueprint('submissions', 'submissions')
 
+
+#user creates/submits a story for approval 
+
 #route to admin dashboard to get list of submissions waiting approval 
 @submissions.route('/', methods=["GET"])
 # the admin must be logged in 
