@@ -42,9 +42,9 @@ def update_submission(submission_id):
 		payload = request.get_json()
 		query = models.Submission.update(**payload).where(models.Submission.id == id)
 		query.execute()
-		return jsonify(data=model_to_dict(models.Submission.get_by_id(id)), status={"code": 200, "message": "Submission updated successfuly"}), 200 
+		return jsonify(data=model_to_dict(models.Submission.get_by_id(id)), status={"code": 201, "message": "Submission updated successfuly"}), 201 
 	except models.DoesNotExist: 
-		return jsonify(data={}, status={"code": 401, "message": "Could not find submission. Not updated successfully."}), 401
+		return jsonify(data={}, status={"code": 304, "message": "Could not find submission. Not updated successfully."}), 304
 
 # User can delete a submission from their dashboard
 @submissions.route('/<submission_id', method=["Delete"])
