@@ -59,28 +59,26 @@ def delete_submission(submission_id):
 		return jsonify(data={}, status={"code", 401, "message", "Sumbission was not deleted"}), 401
 
 
-# User dashboard where user can see their own submissions/stories
-@submissions.route('/dashboard', methods=["GET"])
+# User dashboard where user can see their own submissions or stories published 
+@submissions.route('/dashboard/<user_id>', methods=["GET"])
 @login_required
 def user_dashboard(user_id):
 	payload = request.get_json()
 	try:
-		if current_user.email == email:
-			# models.Submission.select() is taking all of the data from the Sumbission model and storing it into the course_instances variable 
-			all_submissions_by_user = models.Submission.select().where(Submission.email == email)
-			# loop through the Submission Model Data(submission_instances) and converting to dictionaries for Python to read
-			submissions_by_user_dict = [model_to_dict(submission) for submission in all_submissions_by_user]
+		all_submissions_by_user = models.Submission.select().where(models.Submission.user_id == user_id)
+		submissions_by_user_dicts = [model_to_dict(submission) for submission in all_submissions_by_user]
+		# print(submissions_by_user_dicts)
+		# submission_ids = [submission['id'] for submission in submissions_by_user_dicts] 
+		# print(submission_ids)	
+		# stories = [models.Story.get().where(models.Story.submission_id == submission.id) for submission in submissions_by_user_dicts]
+
+		# stories = models.Story.select().where(models.Story.submission_id == submission_id)
+
 			# return the data 
-			return jsonify(data=submissions_by_user_dict, status={
+		return jsonify(data=submissions_by_user_dicts, status={
 				'code': 200,
 				'message': 'These are the submissions the user has created'
 				}), 200
-		else: 
-			# return error message if data cannot be processed 
-			return jsonify(data={}, status={
-				'code': 500, 
-				'message': 'oops not good'
-				}), 500
 	except models.DoesNotExist:
 		return jsonify(data={}, status={"code", 500, "message", "Code isn't working"}), 500
 
