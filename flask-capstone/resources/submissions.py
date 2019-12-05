@@ -115,7 +115,6 @@ def submission_approved(submission_id):
 		return jsonify(data={}, status={"code": 304, "message": "The submission status was not updated to approved"}), 304
 		
 
-
 #Admin denies a post - works 
 @submissions.route('/<submission_id>/deny', methods=["PUT"])
 @login_required
@@ -129,13 +128,13 @@ def submission_denied(submission_id):
 		return jsonify(data={}, status={"code": 304, "message": "The submission status was not updated to denied"}), 304
 
 # shows submission under category 
-@stories.route('/<category>', methods=["GET"])
+@submissions.route('/<category>', methods=["GET"])
 def show_story_by_category(category):
 	payload = request.get_json()
 	try: 
-		story_by_category = models.Story.select().where(models.Story.category == category)
-		story_dict = [model_to_dict(story) for story in story_by_category]
-		return jsonify(data=story_instances_dict, status={
+		submissions_approved = models.Submission.select().where(models.Submission.category == category and models.Submission.status == 'approved')
+		submissions_approved_dict = [model_to_dict(submission) for submission in story_by_category]
+		return jsonify(data=submissions_approved_dict, status={
 			'code': 200,
 			'message': 'Success!'
 			}), 200
