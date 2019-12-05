@@ -130,10 +130,9 @@ def submission_denied(submission_id):
 # shows submission under category 
 @submissions.route('/<category>', methods=["GET"])
 def show_story_by_category(category):
-	payload = request.get_json()
 	try: 
 		submissions_approved = models.Submission.select().where(models.Submission.category == category and models.Submission.status == 'approved')
-		submissions_approved_dict = [model_to_dict(submission) for submission in story_by_category]
+		submissions_approved_dict = [model_to_dict(submission) for submission in submissions_approved]
 		return jsonify(data=submissions_approved_dict, status={
 			'code': 200,
 			'message': 'Success!'
