@@ -85,33 +85,19 @@ def user_dashboard(user_id):
 		return jsonify(data={}, status={"code", 500, "message", "Code isn't working"}), 500
 
 
-# User submits story for approval (CREATE)
+# User creates a submission 
 @submissions.route('/', methods=["POST"])
 @login_required
 def create_submission():
 	payload = request.get_json()
 	print(payload)
-	submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous = payload["anonymous"], user_id=2)
+	submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous = payload["anonymous"], user_id=current_user.id)
 	
 	submission_dict = model_to_dict(submission)
 	print(submission_dict, 'model to dict')
 
 	submission_dict['user_id'].pop('password')
 	return jsonify(data=submission_dict, status={"code": 201, "message": "Submission created successfully!"}), 201
-
-	# create submission associated with current user
-
-	# you can tell if ccurrent user is logged in with if current_user.is_authenticated
-
-	# try:
-	# 	if current_user.email == email:
-	# 		submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous = payload["anonymous"], email=payload["email"])
-	# 		submission_dict = model_to_dict(submission)
-	# 		return jsonify(data=submission_dict, status={"code": 201, "message": "Submission created successfully!"}), 201
-	# 	else:
-	# 		return jsonify(data={}, status={"code": 404, "message": "Submission could not be created"}), 404
-	# except models.DoesNotExist:
-	# 	return jsonify(data={}, status={"code", 500, "message", "Code isn't working"}), 500
 
 
 # Admin approves a post
