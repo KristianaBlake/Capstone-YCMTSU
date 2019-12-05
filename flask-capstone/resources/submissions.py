@@ -47,19 +47,19 @@ def resubmit_submission(submission_id):
 	except models.DoesNotExist: 
 		return jsonify(data={}, status={"code": 304, "message": "Could not find submission. Not updated successfully."}), 304
 
-# User can delete a submission from their dashboard
+# User can delete a submission from their dashboard 
 @submissions.route('/<submission_id>/delete', methods=["Delete"])
 @login_required
 def delete_submission(submission_id):
 	try:
-		query = moels.Submission.delete().where(models.Submission.id == id)
+		query = models.Submission.delete().where(models.Submission.id == submission_id)
 		query.execute()
 		return jsonify(data="Sumbission was successfully deleted", status={"code": 200, "message": "Submission successfully delted"}), 200
 	except models.DoesNotExist:
 		return jsonify(data={}, status={"code", 401, "message", "Sumbission was not deleted"}), 401
 
 
-# User dashboard where user can see their own submissions or stories published 
+# User dashboard where user can see their own submissions or stories published - works  
 @submissions.route('/dashboard/<user_id>', methods=["GET"])
 @login_required
 def user_dashboard(user_id):
