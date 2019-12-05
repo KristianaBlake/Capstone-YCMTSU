@@ -17,19 +17,19 @@ class User(UserMixin, Model):
 		db_table = 'user_table'
 
 class Submission(Model):
-	title = CharField(unique=True)
-	description = CharField(unique=True)
-	category = CharField(unique=True)
-	status = CharField(unique=True)
-	anonymous = BooleanField(unique=True)
-	user_id = ForeignKeyField(User, backref='submissions') 
+	title = CharField()
+	description = CharField()
+	category = CharField()
+	status = CharField(default="pending") # default pending
+	anonymous = BooleanField()
+	user_id = ForeignKeyField(User, backref='users') 
 
 	class Meta:
 		database = DATABASE
 
 class Story(Model):
 	created_date = DateTimeField(default=datetime.datetime.now)
-	submission_id = ForeignKeyField(Submission, backref='stories')
+	submission_id = ForeignKeyField(Submission, backref='submissions')
 
 	class Meta:
 		database = DATABASE

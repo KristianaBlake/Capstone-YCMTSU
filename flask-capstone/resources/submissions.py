@@ -59,17 +59,17 @@ def delete_submission(submission_id):
 		return jsonify(data={}, status={"code", 401, "message", "Sumbission was not deleted"}), 401
 
 
-# User dashboard where use can see their own submissions/stories
-@submissions.route('/<user_id>', methods=["GET"])
+# User dashboard where user can see their own submissions/stories
+@submissions.route('/dashboard', methods=["GET"])
 @login_required
 def user_dashboard(user_id):
 	payload = request.get_json()
 	try:
-		if current_user.id == user_id:
+		if current_user.email == email:
 			# models.Submission.select() is taking all of the data from the Sumbission model and storing it into the course_instances variable 
-			all_submissions_by_user = models.Submission.select().where(Submission.user_id == user_id)
+			all_submissions_by_user = models.Submission.select().where(Submission.email == email)
 			# loop through the Submission Model Data(submission_instances) and converting to dictionaries for Python to read
-			submissions_by_user_dict = [model_to_dict(submissio) for submission in all_submissions_by_user]
+			submissions_by_user_dict = [model_to_dict(submission) for submission in all_submissions_by_user]
 			# return the data 
 			return jsonify(data=submissions_by_user_dict, status={
 				'code': 200,
@@ -88,14 +88,31 @@ def user_dashboard(user_id):
 # User submits story for approval (CREATE)
 @submissions.route('/', methods=["POST"])
 @login_required
-def submit_submission():
-	payload.request.get_json()
-	try: 
-		submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous = payload["anonymous"])
-		submission_dict = model_to_dict(submission)
-		return jsonify(data=submission_dict, status={"code": 201, "message": "Submission created successfully!"}), 201
-	except models.DoesNotExist:
-		return jsonify(data={}, status={"code": 404, "message": "Submission could not be created"}), 404
+def create_submission():
+	payload = request.get_json()
+	print(payload)
+	submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous = payload["anonymous"], user_id=2)
+	
+	submission_dict = model_to_dict(submission)
+	print(submission_dict, 'model to dict')
+
+	submission_dict['user_id'].pop('password')
+	return jsonify(data=submission_dict, status={"code": 201, "message": "Submission created successfully!"}), 201
+
+	# create submission associated with current user
+
+	# you can tell if ccurrent user is logged in with if current_user.is_authenticated
+
+	# try:
+	# 	if current_user.email == email:
+	# 		submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous = payload["anonymous"], email=payload["email"])
+	# 		submission_dict = model_to_dict(submission)
+	# 		return jsonify(data=submission_dict, status={"code": 201, "message": "Submission created successfully!"}), 201
+	# 	else:
+	# 		return jsonify(data={}, status={"code": 404, "message": "Submission could not be created"}), 404
+	# except models.DoesNotExist:
+	# 	return jsonify(data={}, status={"code", 500, "message", "Code isn't working"}), 500
+
 
 # Admin approves a post
 @submissions.route('/<submission_id>/approve', methods=["PUT"])
