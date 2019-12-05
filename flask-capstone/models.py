@@ -31,7 +31,7 @@ class Submission(Model):
 def initialize():
 	# connect to the database
 	DATABASE.connect()
-	DATABASE.create_tables([User, Story, Submission], safe=True)
+	DATABASE.create_tables([User, Submission], safe=True)
 	print('THE TABLES HAVE BEEN CREATED!')
 	DATABASE.close()
 

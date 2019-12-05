@@ -59,7 +59,7 @@ def delete_submission(submission_id):
 		return jsonify(data={}, status={"code", 401, "message", "Sumbission was not deleted"}), 401
 
 
-# User dashboard where user can see their own submissions or stories published - works  
+# User dashboard where user can see their own submissions - works  
 @submissions.route('/dashboard/<user_id>', methods=["GET"])
 @login_required
 def user_dashboard(user_id):
@@ -68,18 +68,18 @@ def user_dashboard(user_id):
 		all_submissions_by_user = models.Submission.select().where(models.Submission.user_id == user_id)
 		submissions_by_user_dicts = [model_to_dict(submission) for submission in all_submissions_by_user]
 
-		# grabbing submission ids from submissions_by_user_dicts
-		submission_ids = [submission_dict['id'] for submission_dict in submissions_by_user_dicts] 
-		# get all submission ids from stories 
-		def stories_with_sub_ids():
-			stories = []
-			for s_id in submission_ids:
-				story_submission_ids = models.Story.select().where(models.Story.submission_id == s_id)
-				story_submission_ids_dict = [model_to_dict(story) for story in story_submission_ids]
-				stories.append(story_submission_ids_dict)
-			return stories 
+		# # grabbing submission ids from submissions_by_user_dicts
+		# submission_ids = [submission_dict['id'] for submission_dict in submissions_by_user_dicts] 
+		# # get all submission ids from stories 
+		# def stories_with_sub_ids():
+		# 	stories = []
+		# 	for s_id in submission_ids:
+		# 		story_submission_ids = models.Story.select().where(models.Story.submission_id == s_id)
+		# 		story_submission_ids_dict = [model_to_dict(story) for story in story_submission_ids]
+		# 		stories.append(story_submission_ids_dict)
+		# 	return stories 
 
-		return jsonify(data=[submissions_by_user_dicts, stories_with_sub_ids()], status={
+		return jsonify(data=submissions_by_user_dicts, status={
 				'code': 200,
 				'message': 'These are the submissions the user has created'
 				}), 200
@@ -127,6 +127,23 @@ def submission_denied(submission_id):
 		return jsonify(data=model_to_dict(models.Submission.get_by_id(submission_id)), status={"code": 200, "message": "Submission status has been updated to denied"}), 200
 	else: 
 		return jsonify(data={}, status={"code": 304, "message": "The submission status was not updated to denied"}), 304
+
+# shows submission under category 
+@stories.route('/<category>', methods=["GET"])
+def show_story_by_category(category):
+	payload = request.get_json()
+	try: 
+		story_by_category = models.Story.select().where(models.Story.category == category)
+		story_dict = [model_to_dict(story) for story in story_by_category]
+		return jsonify(data=story_instances_dict, status={
+			'code': 200,
+			'message': 'Success!'
+			}), 200
+	except models.DoesNotExist:  
+		return jsonify(data={}, status={
+			'code': 500,
+			'message': 'oops not good'
+			}), 500
 
 
 

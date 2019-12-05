@@ -1,9 +1,6 @@
 from flask import Flask, jsonify, g
 from flask_cors import CORS 
-
 from flask_login import LoginManager 
-
-from resources.stories import stories
 from resources.submissions import submissions
 from resources.users import users 
 
@@ -31,11 +28,9 @@ def load_user(user_id):
 def unauthorized():
 	return jsonify(data={'error': 'User not logged in.'}, status={'code': 401, 'message': "You must be logged in to access that resource"}), 401
 
-CORS(stories, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(submissions, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(users, origins=['https://localhost:3000'], supports_credentials=True)
 
-app.register_blueprint(stories, url_prefix='/api/v1/stories')
 app.register_blueprint(submissions, url_prefix='/api/v1/submissions')
 app.register_blueprint(users, url_prefix='/api/v1/users')
 
