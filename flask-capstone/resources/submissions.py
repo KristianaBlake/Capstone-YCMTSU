@@ -11,7 +11,7 @@ from peewee import DoesNotExist
 #blueprint 
 submissions = Blueprint('submissions', 'submissions')
 
-#route to admin dashboard to get list of submissions waiting approval 
+#route to admin dashboard to get list of submissions waiting approval - works 
 @submissions.route('/admin', methods=["GET"])
 # the admin must be logged in 
 @login_required
@@ -83,7 +83,7 @@ def user_dashboard(user_id):
 		return jsonify(data={}, status={"code", 500, "message", "Code isn't working"}), 500
 
 
-# User creates a submission 
+# User creates a submission - works 
 @submissions.route('/', methods=["POST"])
 @login_required
 def create_submission():
@@ -98,15 +98,15 @@ def create_submission():
 	return jsonify(data=submission_dict, status={"code": 201, "message": "Submission created successfully!"}), 201
 
 
-# Admin approves a post
+# Admin approves a post -works 
 @submissions.route('/<submission_id>/approve', methods=["PUT"])
 @login_required
 def submission_approved(submission_id):
 	payload = request.get_json()
 	if current_user.username == 'administrator':
-		query = models.Submission.update({Sumbission.status: 'approved'}).where(id == submission_id)
+		query = models.Submission.update({models.Submission.status: 'approved'}).where(submission_id == submission_id)
 		query.execute()
-		return jsonify(data=model_to_dict(models.Submission.get_by_id(id)), status={"code": 200, "message": "Submission status has been updated to approved"}), 200
+		return jsonify(data=model_to_dict(models.Submission.get_by_id(submission_id)), status={"code": 200, "message": "Submission status has been updated to approved"}), 200
 	else: 
 		return jsonify(data={}, status={"code": 304, "message": "The submission status was not updated to approved"}), 304
 		
@@ -118,9 +118,9 @@ def submission_approved(submission_id):
 def submission_denied(submission_id):
 	payload = request.get_json()
 	if current_user.username == 'administrator':
-		query = models.Submission.update({Sumbission.status: 'denied'}).where(id == submission_id)
+		query = models.Submission.update({models.Submission.status: 'denied'}).where(submission_id == submission_id)
 		query.execute()
-		return jsonify(data=model_to_dict(models.Submission.get_by_id(id)), status={"code": 200, "message": "Submission status has been updated to denied"}), 200
+		return jsonify(data=model_to_dict(models.Submission.get_by_id(submission_id)), status={"code": 200, "message": "Submission status has been updated to denied"}), 200
 	else: 
 		return jsonify(data={}, status={"code": 304, "message": "The submission status was not updated to denied"}), 304
 
