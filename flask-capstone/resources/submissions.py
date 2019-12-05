@@ -41,9 +41,9 @@ def admin_dashboard():
 def resubmit_submission(submission_id):
 	payload = request.get_json()
 	try:
-		query = models.Submission.update(**payload).where(models.Submission.id == id)
+		query = models.Submission.update(**payload).where(models.Submission.id == submission_id)
 		query.execute()
-		return jsonify(data=model_to_dict(models.Submission.get_by_id(id)), status={"code": 201, "message": "Submission updated successfuly"}), 201 
+		return jsonify(data=model_to_dict(models.Submission.get_by_id(submission_id)), status={"code": 201, "message": "Submission updated successfuly"}), 201 
 	except models.DoesNotExist: 
 		return jsonify(data={}, status={"code": 304, "message": "Could not find submission. Not updated successfully."}), 304
 
@@ -98,7 +98,7 @@ def create_submission():
 	return jsonify(data=submission_dict, status={"code": 201, "message": "Submission created successfully!"}), 201
 
 
-# Admin approves a post -works 
+# Admin approves a post - works 
 @submissions.route('/<submission_id>/approve', methods=["PUT"])
 @login_required
 def submission_approved(submission_id):
@@ -112,7 +112,7 @@ def submission_approved(submission_id):
 		
 
 
-#Admin denies a post 
+#Admin denies a post - works 
 @submissions.route('/<submission_id>/deny', methods=["PUT"])
 @login_required
 def submission_denied(submission_id):
