@@ -47,7 +47,7 @@ def resubmit_submission(submission_id):
 	except models.DoesNotExist: 
 		return jsonify(data={}, status={"code": 304, "message": "Could not find submission. Not updated successfully."}), 304
 
-# User can delete a submission from their dashboard 
+# User can delete a submission from their dashboard - works 
 @submissions.route('/<submission_id>/delete', methods=["Delete"])
 @login_required
 def delete_submission(submission_id):

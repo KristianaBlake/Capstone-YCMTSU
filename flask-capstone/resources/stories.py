@@ -26,16 +26,16 @@ def show_story_by_category(category):
 			'message': 'oops not good'
 			}), 500
 
-# submission changes to a story 
-@stories.route('/<submission_id>', methods=["POST"])
-@login_required
-def post_approved(submission_id):
-	payload = request.get_json()
-	if (current_user.username == 'administrator' and Submission.status == 'approved'):
-		story = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous=payload["anonymous"], email=payload["email"])
-		story_dict = model_to_dict(story)
-		return jsonify(data=story_dict, status={"code": 201, "message": "Sumbission has been created to Story"}), 202
-	else:
-		return jsonify(data={}, status={"code": 304, "message": "The Submission was not created to a Story."}), 304
+# # submission changes to a story 
+# @stories.route('/<submission_id>', methods=["POST"])
+# @login_required
+# def post_approved(submission_id):
+# 	payload = request.get_json()
+# 	if (current_user.username == 'administrator' and Submission.status == 'approved'):
+# 		story = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous=payload["anonymous"], email=payload["email"])
+# 		story_dict = model_to_dict(story)
+# 		return jsonify(data=story_dict, status={"code": 201, "message": "Sumbission has been created to Story"}), 202
+# 	else:
+# 		return jsonify(data={}, status={"code": 304, "message": "The Submission was not created to a Story."}), 304
 
 

@@ -22,14 +22,8 @@ class Submission(Model):
 	category = CharField()
 	status = CharField(default="pending") # default pending
 	anonymous = BooleanField()
-	user_id = ForeignKeyField(User, backref='users') 
-
-	class Meta:
-		database = DATABASE
-
-class Story(Model):
-	created_date = DateTimeField(default=datetime.datetime.now)
-	submission_id = ForeignKeyField(Submission, backref='submissions')
+	user_id = ForeignKeyField(User, backref='submissions')
+	created_date = DateTimeField(default=datetime.datetime.now) 
 
 	class Meta:
 		database = DATABASE

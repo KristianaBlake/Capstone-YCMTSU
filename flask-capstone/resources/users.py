@@ -93,7 +93,7 @@ def login():
 		return jsonify(data={}, status={'code': 401, 'message': 'Email or password is incorrect'}), 401
 
 
-# logout route
+# logout route -works
 @users.route('/logout', methods=['GET'])
 def logout():
 	# get the username of user
