@@ -16,7 +16,6 @@ submissions = Blueprint('submissions', 'submissions')
 # the admin must be logged in 
 @login_required
 def admin_dashboard():
-	payload = request.get_json()
 	if current_user.username == 'administrator':
 		# models.Submission.select() is taking all of the data from the Sumbission model and storing it into the course_instances variable 
 		all_submissions = models.Submission.select()
