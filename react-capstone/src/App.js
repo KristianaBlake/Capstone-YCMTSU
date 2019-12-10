@@ -133,6 +133,14 @@ class App extends React.Component {
 
 render() {
 	const componentToRender = () => {
+		// if they are the administrator, take them to the administrator dashboard 
+		if (this.state.isAdministrator){
+			return (
+				<AdminContainer
+				loggedInUser={this.state.loggedInUser})
+				administratorLogout={this.administratorLogout}
+				/>
+		} 
 
 	};
 
