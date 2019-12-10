@@ -61,3 +61,5 @@ class LoginREgisterForm extends Component {
 
 
 }
+
+export default LoginRegisterForm;
