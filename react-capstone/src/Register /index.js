@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Checkbox, Form } from 'semantic-ui-react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class Register extends Component {
   constructor(){
@@ -21,7 +22,7 @@ class Register extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     console.log('hello')
-    const registerResponse = await fetch(process.env.REACT_APP_API_URL + 'api/v1/users/register', {
+    const registerResponse = await fetch(process.env.REACT_APP_API_URL + '/api/v1/users/register', {
       method: 'POST',
       credentials: 'include', // this sends our session cookie with our request
       body: JSON.stringify(this.state),
@@ -34,14 +35,14 @@ class Register extends Component {
 
     if(parsedResponse.status.message === 'Success'){
       // change our component
-      console.log('successful login')
+      console.log('successful register')
       // this automatically get passed to your component as a prop
-      this.props.history.push('/dogs');
+      this.props.history.push('/');
     }
   }
   render(){
     return (
-
+      <div>
       <Form onSubmit={this.handleSubmit}>
         <Form.Field>
           <label>Name</label>
@@ -64,7 +65,8 @@ class Register extends Component {
           </Form.Field>
         <Button type='submit'>Submit</Button>
       </Form>
-      )
+      </div> 
+    )
   }
 }
 

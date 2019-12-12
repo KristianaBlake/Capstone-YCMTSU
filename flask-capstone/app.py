@@ -29,7 +29,7 @@ def unauthorized():
 	return jsonify(data={'error': 'User not logged in.'}, status={'code': 401, 'message': "You must be logged in to access that resource"}), 401
 
 CORS(submissions, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(users, origins=['https://localhost:3000'], supports_credentials=True)
+CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
 
 app.register_blueprint(submissions, url_prefix='/api/v1/submissions')
 app.register_blueprint(users, url_prefix='/api/v1/users')
