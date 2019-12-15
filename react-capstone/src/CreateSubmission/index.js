@@ -25,7 +25,7 @@ class SubmitStory extends Component {
 
 	render() {
 		return (
-			<Form>
+			<Form onSubmit={e => this.props.createSubmission(e, this.state)}>
 			<Form.Field
 	            control={Select}
 	            label='Category'

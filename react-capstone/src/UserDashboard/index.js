@@ -35,6 +35,35 @@ class UserDashboard extends Component {
 
       }
     }
+
+    editSubmission = idOfSubmissionToEdit => {
+        const submissionToEdit = this.state.submissions.find(
+            submission => submission.id === idOfSubmissionToEdit
+        );
+        this.setState({
+            idOfSubmissionToEdit: submissionToEdit.id,
+            submissionToEdit: {
+                ...submissionToEdit
+            }
+        })
+    };
+
+    deleteSubmission = async id => {
+        const deleteSubmissionResponse = await fetch(
+          process.env.REACT_APP_API_URL + "/api/v1/submissions/" + id + "/delete",
+          {
+            credentials: "include",
+            method: "DELETE"
+          }
+        );
+
+        const deleteSubmissionParsed = await deleteSubmissionResponse.json();
+        this.setState({
+          submissions: this.state.submissions.filter(submission => submission.id !== id)
+    })  
+  }
+
+    
   
 
   render() {
