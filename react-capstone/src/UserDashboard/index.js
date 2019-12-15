@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Card } from "semantic-ui-react";
+// import { Button, Card } from "semantic-ui-react";
 
 class UserDashboard extends Component {
   constructor(props) {
@@ -7,70 +7,16 @@ class UserDashboard extends Component {
 
     this.state = {
       loggedInUser: this.props.loggedInUser,
-      submissions: [],
+      submissions: this.props.submissions
     };
   }
-
-    seeSubmissions = async () => {
-      try {
-        const submission = await fetch(
-          process.env.REACT_APP_API_URL + "/api/v1/submissions/dashboard/" + this.state.loggedInUser.id,
-          {
-            method: "GET",
-            credentials: "include",
-            // body: JSON.stringify(userId),
-            header: {
-              "Content-Type": "application/json"
-            }
-          }
-        );
-        const parsedSubmission = await submission.json();
-
-        this.setState({
-          submissions: parsedSubmission.data
-
-        });
-      } catch (err) {
-        console.log(err)
-
-      }
-    }
-
-    editSubmission = idOfSubmissionToEdit => {
-        const submissionToEdit = this.state.submissions.find(
-            submission => submission.id === idOfSubmissionToEdit
-        );
-        this.setState({
-            idOfSubmissionToEdit: submissionToEdit.id,
-            submissionToEdit: {
-                ...submissionToEdit
-            }
-        })
-    };
-
-    deleteSubmission = async id => {
-        const deleteSubmissionResponse = await fetch(
-          process.env.REACT_APP_API_URL + "/api/v1/submissions/" + id + "/delete",
-          {
-            credentials: "include",
-            method: "DELETE"
-          }
-        );
-
-        const deleteSubmissionParsed = await deleteSubmissionResponse.json();
-        this.setState({
-          submissions: this.state.submissions.filter(submission => submission.id !== id)
-    })  
-  }
-
-    
-  
 
   render() {
     return (
       <div>
 
         <p>{this.props.loggedInUser.username}</p>
+        <p>{this.props.submissions}</p> 
       </div>
       )
     // return (

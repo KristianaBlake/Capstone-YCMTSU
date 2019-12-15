@@ -30,7 +30,8 @@ class App extends React.Component {
           "Content-Type": "application/json"
         }
       }
-    );
+    )
+
     const parsedLoginResponse = await response.json();
 
     // if the response if cleared
@@ -50,7 +51,7 @@ class App extends React.Component {
         console.log(parsedLoginResponse);
       }
     }
-  };
+  }
 
   // create a route to login 
   login = async loginInfo => {
@@ -65,26 +66,29 @@ class App extends React.Component {
           "Content-Type": "application/json"
         }
       }
-    );
+    )
+
     const parsedLoginResponse = await response.json();
 
     if (parsedLoginResponse.data.username === "administrator") {
       this.setState({
         isAdministrator: true, 
         loggedInUser: this.state.loggedInUser
-      });
+      })
+
     } else {
       // if the reponse is good 
       if (parsedLoginResponse.status.code === 200) {
         this.setState({
           loggedIn: true, 
           loggedInUser: parsedLoginResponse.data // array from flask 
-        });
+        })
+
       } else {
         console.log(parsedLoginResponse);
       }
     }
-  };
+  }
 
   administratorLogout = async () => {
     const response = await fetch(
@@ -132,6 +136,31 @@ class App extends React.Component {
     }
   };
 
+  seeSubmissions = async () => {
+      try {
+        const submission = await fetch(
+          process.env.REACT_APP_API_URL + "/api/v1/submissions/dashboard/" + this.state.loggedInUser.id,
+          {
+            method: "GET",
+            credentials: "include",
+            // body: JSON.stringify(userId),
+            header: {
+              "Content-Type": "application/json"
+            }
+          }
+        );
+        const parsedSubmission = await submission.json();
+
+        this.setState({
+          submissions: parsedSubmission.data
+
+        });
+      } catch (err) {
+        console.log(err)
+
+      }
+    }
+
   createSubmission = async (e, submissionFromForm) => {
     //prevents the browser from reloading when an event is called...
     e.preventDefault();
@@ -155,7 +184,7 @@ class App extends React.Component {
       });
 
     } catch (err) {}
-  };
+  }
 
   // editSubmission = idOfSubmissionToEdit => {
   //       const submissionToEdit = this.state.submissions.find(
@@ -167,7 +196,7 @@ class App extends React.Component {
   //               ...submissionToEdit
   //           }
   //       })
-  //   };
+  //   }
 
   // deleteSubmission = async id => {
   //   const deleteSubmissionResponse = await fetch(
