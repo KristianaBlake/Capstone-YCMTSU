@@ -33,7 +33,7 @@ class LoginRegisterForm extends Component {
       });
     } else {
       this.props.register({
-        name: this.state.full_name,
+        name: this.state.name,
         username: this.state.username,
         email: this.state.email,
         password: this.state.password
