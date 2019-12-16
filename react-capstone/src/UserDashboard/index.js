@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-// import { Button, Card } from "semantic-ui-react";
+import CreateSubmission from "../CreateSubmission";
+import { Grid } from "semantic-ui-react";
 
 class UserDashboard extends Component {
   constructor(props) {
@@ -7,18 +8,81 @@ class UserDashboard extends Component {
 
     this.state = {
       loggedInUser: this.props.loggedInUser,
-      submissions: this.props.submissions
+      submissions: [],
+
+      editModalOpen: false,
+
+      submissionToEdit: {
+        category: "",
+        title: "",
+        description: "",
+        anonymous: false 
+      }
     };
   }
 
+  createSubmission = async (e, submissionFromForm) => {
+    //prevents the browser from reloading when an event is called...
+    e.preventDefault();
+    try {
+      //Call the array of all of the courses in the DB.
+      const createdSumbissionResponse = await fetch(
+        process.env.REACT_APP_API_URL + "/api/v1/sumbissions/",
+        {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(this.state.sumbissions),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      const parsedResponse = await createdSumbissionResponse.json();
+      //push all courses + added course into state.
+      this.setState({
+        submissions: [...this.state.sumbissions, parsedResponse.data]
+      });
+
+    } catch (err) {}
+  }
+
+  editSubmission = idOfSubmissionToEdit => {
+        const submissionToEdit = this.state.submissions.find(
+            submission => submission.id === idOfSubmissionToEdit
+        );
+        this.setState({
+            idOfSubmissionToEdit: submissionToEdit.id,
+            submissionToEdit: {
+                ...submissionToEdit
+            }
+        })
+    }
+
+  // deleteSubmission = async id => {
+  //   const deleteSubmissionResponse = await fetch(
+  //     process.env.REACT_APP_API_URL + "/api/v1/submissions/" + id + "/delete",
+  //     {
+  //       credentials: "include",
+  //       method: "DELETE"
+  //     }
+  //   );
+
+  //   const deleteSubmissionParsed = await deleteSubmissionResponse.json();
+  //   this.setState({
+  //     submissions: this.state.submissions.filter(submission => submission.id !== id)
+  //   })  
+  // }
+
   render() {
     return (
-      <div>
-
-        <p>{this.props.loggedInUser.username}</p>
-        <p>{this.props.submissions}</p> 
-      </div>
-      )
+        <div>
+            <Grid>
+                <Grid.Column>
+                    <CreateSubmission createSubmission={this.createSubmission} /> 
+                </Grid.Column> 
+            </Grid> 
+        </div>
+    )
     // return (
     //   <div>
     //     <Card.Group>

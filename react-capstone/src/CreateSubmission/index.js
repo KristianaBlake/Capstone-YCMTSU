@@ -1,63 +1,80 @@
 import React, { Component } from "react";
-import { Button, Checkbox, Form, Input, Radio, Select, TextArea, Container } from 'semantic-ui-react';
+import { Button, Form, Container, TextArea } from 'semantic-ui-react';
 
-class SubmitStory extends Component {
-	constructor(props) {
+const options = [
+	{ key: 'l', text: 'Life', value: 'life' },
+	{ key: 'fr', text: 'Friends', value: 'friends'},
+	{ key: 'so', text: 'Significant Other', value: 'significant other'},
+	{ key: 'fm', text: 'Family', value: 'family'},
+]
+
+class CreateSubmission extends Component {
+	constructor() {
 		super();
+
 		this.state = {
 			category: "",
 			title: "",
 			description: "",
-			anonymous: ""
+			anonymous: false 
 		}
 	}
 
 	handleChange = e => {
-		this.setState({ [e.currentTarget.name: e.currentTarget.value]});
+		this.setState({[e.currentTarget.name]: e.currentTarget.value});
 	}
 
-	const category = [
-	{ key: 'l', text: 'Life', value: 'life' },
-	{ key: 'fr', text: 'Friends', value: 'friends'},
-	{ key: 'so', text: 'Significant Other', value: 'significant other'},
-	{ key: 'fm' text: 'Family', value: 'family'}
-	]
+
 
 	render() {
 		return (
-			<Form onSubmit={e => this.props.createSubmission(e, this.state)}>
-			<Form.Field
-	            control={Select}
-	            label='Category'
-	            category={category}
-	            placeholder='Category'
-          	/>
-          	<Form.Field
-	            control={Input}
-	            label='Title'
-	            placeholder='Title'
-          	/>
-          	<Form.Field
-	          control={TextArea}
-	          label='Description'
-	          placeholder='So what had happened was...'
-        	/>
-        	<Form.Field
-	          control={Checkbox}
-	          label='Anonymous'
-        	/>
-        	<Container class="container">
-	        	<p>
-	        	Disclaimer: 
-	        	All stories are approved by the "You Can't Make This Up" team. No hateful or discriminatory submissions allowed. 
-	        	 <Checkbox label='I agree to the Terms and Conditions' />
-        	</p> 
-        	</Container>
-        	<Button type='submit'>Submit</Button>
-			</Form> 
+			<div>
+				<Form onSubmit={(e) => this.props.createSubmission(e, this.state)}>
 
+			
+				<Form.Select
+		            label='Category'
+		            name='category'
+		            options={options}
+		            placeholder='Submission Category'
+		            onChange={this.handleChange}
+	          	/>
+	          	<Form.Input
+		            type='text'
+		            label='Title'
+		            placeholder='Title'
+		            name='title'
+		            value={this.state.title}
+		            onChange={this.handleChange}
+	          	/>
+	          	<Form.TextArea
+	          		type='text'
+		            label='Description'
+		          	placeholder='So what had happened was...'
+		            name='description'
+		            value={this.state.description}
+		            onChange={this.handleChange}
+	        	/>
+	        	<Form.Checkbox
+		          label='Anonymous'
+		          name='anonymous'
+		          onChange={this.handleChange}
+	        	/>
+	        	<Container>
+		        	<p>
+		        	Disclaimer: 
+		        	All stories are approved by the "You Can't Make This Up" team. No hateful or discriminatory submissions allowed. 
+	        		</p> 
+	        	<Form.Checkbox 
+		          label='I agree to the Terms and Conditions'
+		          onChange={this.handleChange}
+	        	/>
+	        	</Container>
+	        	<Button type='submit'>Submit</Button>
+				</Form> 
+			</div> 
 		)
 	}
 }
 
-export default SubmitStory;
+export default CreateSubmission;
