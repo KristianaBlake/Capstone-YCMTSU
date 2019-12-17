@@ -139,21 +139,16 @@ class App extends React.Component {
   seeSubmissions = async () => {
       try {
         console.log(this.state, "<- this is state")
-        const submission = await fetch(
+        const submissions = await fetch(
           process.env.REACT_APP_API_URL + "/api/v1/submissions/dashboard/" + this.state.loggedInUser.id,
-          {
-            method: "GET",
-            credentials: "include",
-            // body: JSON.stringify(userId),
-            header: {
-              "Content-Type": "application/json"
-            }
+          { 
+            credentials: "include" 
           }
         );
-        const parsedSubmission = await submission.json();
+        const parsedSubmissions = await submissions.json();
 
         this.setState({
-          submissions: parsedSubmission.data
+          submissions: parsedSubmissions.data
 
         });
       } catch (err) {
@@ -176,6 +171,7 @@ render() {
           loggedInUser={this.state.loggedInUser}
           userLogout={this.userLogOut}
           seeSubmissions={this.seeSubmissions}
+          submissions={this.state.submissions}
         />
       );
     } else {

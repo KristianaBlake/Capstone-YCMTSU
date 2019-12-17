@@ -3,13 +3,13 @@ import { Card } from 'semantic-ui-react';
 
 function SubmissionsList(props){
 	const submissions = props.submissions.map((submission) => {
+		console.log(props)
 		return (
 			<Card key={submission.id}>
 				<Card.Content>
 					<Card.Header>{submission.title} </Card.Header>
 					<Card.Description> {submission.category} </Card.Description>
 					<Card.Description> {submission.description} </Card.Description>
-					<Card.Description> {submission.anonymous} </Card.Description>
 				</Card.Content>
 			</Card>
 		);

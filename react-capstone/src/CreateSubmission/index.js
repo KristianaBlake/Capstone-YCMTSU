@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Form, Container } from 'semantic-ui-react';
 
 const options = [
-	{ key: 'l', text: 'Life', value: 'life' },
+	{ key: 'l', text: 'Life', value: 'life'},
 	{ key: 'fr', text: 'Friends', value: 'friends'},
 	{ key: 'so', text: 'Significant Other', value: 'significant other'},
 	{ key: 'fm', text: 'Family', value: 'family'},
@@ -16,11 +16,13 @@ class CreateSubmission extends Component {
 			category: "",
 			title: "",
 			description: "",
-			anonymous: false 
 		}
 	}
 
 	handleChange = e => {
+
+		console.log(e.currentTarget.name)
+		console.log(e.currentTarget.value)
 		this.setState({[e.currentTarget.name]: e.currentTarget.value});
 	}
 
@@ -35,7 +37,9 @@ class CreateSubmission extends Component {
 				<Form.Select
 		            label='Category'
 		            name='category'
+		            selection
 		            options={options}
+		            // value={this.state.category}
 		            placeholder='Submission Category'
 		            onChange={this.handleChange}
 	          	/>
@@ -55,11 +59,7 @@ class CreateSubmission extends Component {
 		            value={this.state.description}
 		            onChange={this.handleChange}
 	        	/>
-	        	<Form.Checkbox
-		          label='Anonymous'
-		          name='anonymous'
-		          onChange={this.handleChange}
-	        	/>
+
 	        	<Container>
 		        	<p>
 		        	Disclaimer: 

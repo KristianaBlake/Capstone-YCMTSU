@@ -22,6 +22,10 @@ class UserDashboard extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.seeSubmissions();
+  }
+
   createSubmission = async (e, submissionFromForm) => {
     //prevents the browser from reloading when an event is called...
     e.preventDefault();
@@ -79,9 +83,9 @@ class UserDashboard extends Component {
     return (
         <div>
             <Grid>
-                {this.props.seeSubmissions.length > 0 ? 
+                {this.props.submissions.length > 0 ? 
                 <Grid.Column>
-                    <SubmissionsList seeSubmissions={this.props.seeSubmissions} /> 
+                    <SubmissionsList submissions={this.props.submissions} /> 
                 </Grid.Column> 
                 : null}
 
