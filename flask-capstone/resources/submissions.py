@@ -67,17 +67,6 @@ def user_dashboard(user_id):
 		all_submissions_by_user = models.Submission.select().where(models.Submission.user_id == user_id)
 		submissions_by_user_dicts = [model_to_dict(submission) for submission in all_submissions_by_user]
 
-		# # grabbing submission ids from submissions_by_user_dicts
-		# submission_ids = [submission_dict['id'] for submission_dict in submissions_by_user_dicts] 
-		# # get all submission ids from stories 
-		# def stories_with_sub_ids():
-		# 	stories = []
-		# 	for s_id in submission_ids:
-		# 		story_submission_ids = models.Story.select().where(models.Story.submission_id == s_id)
-		# 		story_submission_ids_dict = [model_to_dict(story) for story in story_submission_ids]
-		# 		stories.append(story_submission_ids_dict)
-		# 	return stories 
-
 		return jsonify(data=submissions_by_user_dicts, status={
 				'code': 200,
 				'message': 'These are the submissions the user has created'
@@ -92,7 +81,7 @@ def user_dashboard(user_id):
 def create_submission():
 	payload = request.get_json()
 	print(payload)
-	submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], anonymous = payload["anonymous"], user_id=current_user.id)
+	submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], user_id=current_user.id)
 	
 	submission_dict = model_to_dict(submission)
 	print(submission_dict, 'model to dict')
