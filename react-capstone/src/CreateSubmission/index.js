@@ -30,7 +30,7 @@ class CreateSubmission extends Component {
 
 	render() {
 		return (
-			<div>
+			<div >
 				<Form onSubmit={(e) => this.props.createSubmission(e, this.state)}>
 
 			

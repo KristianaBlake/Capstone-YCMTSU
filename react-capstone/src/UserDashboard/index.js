@@ -82,17 +82,16 @@ class UserDashboard extends Component {
   render() {
     return (
         <div>
-            <Grid>
-                {this.props.submissions.length > 0 ? 
-                <Grid.Column>
-                    <SubmissionsList submissions={this.props.submissions} /> 
-                </Grid.Column> 
-                : null}
+  
+          {this.props.submissions.length > 0 ? 
+         
+              <SubmissionsList submissions={this.props.submissions} /> 
+          
+          : null}
 
-                <Grid.Column>
-                    <CreateSubmission createSubmission={this.createSubmission} /> 
-                </Grid.Column> 
-            </Grid> 
+          
+              <CreateSubmission createSubmission={this.createSubmission} /> 
+                
         </div>
     )
     // return (
