@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CreateSubmission from "../CreateSubmission";
+import SubmissionsList from "../SubmissionsList";
 import { Grid } from "semantic-ui-react";
 
 class UserDashboard extends Component {
@@ -26,21 +27,22 @@ class UserDashboard extends Component {
     e.preventDefault();
     try {
       //Call the array of all of the courses in the DB.
-      const createdSumbissionResponse = await fetch(
-        process.env.REACT_APP_API_URL + "/api/v1/sumbissions/",
+      const createdSubmissionResponse = await fetch(
+        process.env.REACT_APP_API_URL + "/api/v1/submissions/",
         {
           method: "POST",
           credentials: "include",
-          body: JSON.stringify(this.state.sumbissions),
+          body: JSON.stringify(submissionFromForm),
           headers: {
             "Content-Type": "application/json"
           }
         }
       );
-      const parsedResponse = await createdSumbissionResponse.json();
+      const parsedResponse = await createdSubmissionResponse.json();
+      console.log(parsedResponse)
       //push all courses + added course into state.
       this.setState({
-        submissions: [...this.state.sumbissions, parsedResponse.data]
+        submissions: [...this.state.submissions, parsedResponse.data]
       });
 
     } catch (err) {}
@@ -77,6 +79,12 @@ class UserDashboard extends Component {
     return (
         <div>
             <Grid>
+                {this.props.seeSubmissions.length > 0 ? 
+                <Grid.Column>
+                    <SubmissionsList seeSubmissions={this.props.seeSubmissions} /> 
+                </Grid.Column> 
+                : null}
+
                 <Grid.Column>
                     <CreateSubmission createSubmission={this.createSubmission} /> 
                 </Grid.Column> 

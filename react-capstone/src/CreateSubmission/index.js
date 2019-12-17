@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Form, Container, TextArea } from 'semantic-ui-react';
+import { Button, Form, Container } from 'semantic-ui-react';
 
 const options = [
 	{ key: 'l', text: 'Life', value: 'life' },

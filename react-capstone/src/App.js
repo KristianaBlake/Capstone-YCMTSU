@@ -138,6 +138,7 @@ class App extends React.Component {
 
   seeSubmissions = async () => {
       try {
+        console.log(this.state, "<- this is state")
         const submission = await fetch(
           process.env.REACT_APP_API_URL + "/api/v1/submissions/dashboard/" + this.state.loggedInUser.id,
           {
@@ -174,6 +175,7 @@ render() {
         <UserDashboard 
           loggedInUser={this.state.loggedInUser}
           userLogout={this.userLogOut}
+          seeSubmissions={this.seeSubmissions}
         />
       );
     } else {
