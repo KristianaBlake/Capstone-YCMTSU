@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.submissions {
+	border-style: 5px solid #A9A9A9;
+}
+
+.createForm {
+  align-items: center;
+  margin: auto; 
+  padding: 0px, 2px, 0px, 2px;
+}

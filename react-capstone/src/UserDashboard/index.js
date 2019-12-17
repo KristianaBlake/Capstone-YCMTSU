@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CreateSubmission from "../CreateSubmission";
 import SubmissionsList from "../SubmissionsList";
-import { Grid } from "semantic-ui-react";
+// import { Grid } from "semantic-ui-react";
 
 class UserDashboard extends Component {
   constructor(props) {
@@ -82,6 +82,10 @@ class UserDashboard extends Component {
   render() {
     return (
         <div>
+
+          <h2>{this.props.loggedInUser.username}'s Dasboard</h2>
+
+          <br></br>
   
           {this.props.submissions.length > 0 ? 
          
@@ -89,9 +93,13 @@ class UserDashboard extends Component {
           
           : null}
 
-          
+              <br></br>
+              <br></br> 
+
+              <h3>Submit a Story</h3>
+
               <CreateSubmission createSubmission={this.createSubmission} /> 
-                
+
         </div>
     )
     // return (

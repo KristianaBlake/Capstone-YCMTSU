@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  padding-right: 50px;
+  padding-left: 50px;
 }
 
 .App-logo {
@@ -37,7 +39,23 @@
   }
 }
 
-.container {
-  text-align: center;
-  
+.submissions {
+  border-style: 5px solid #A9A9A9;
+  padding-right: 20px;
+  padding-left: 35px;
+}
+
+.createForm {
+  align-items: center;
+  margin: auto; 
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+.red {
+  color: red ;
+}
+
+.disclaimer {
+  color: red;
 }

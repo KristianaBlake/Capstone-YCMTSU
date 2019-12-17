@@ -16,9 +16,11 @@ function SubmissionsList(props){
 	});
 
 	return (
-		<Card.Group>
-			{ submissions } 
-		</Card.Group>
+		<div className="submissions">
+			<Card.Group>
+				{ submissions } 
+			</Card.Group>
+		</div> 
 		)
 }
 

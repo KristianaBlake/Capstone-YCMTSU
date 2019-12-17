@@ -56,9 +56,11 @@ class LoginRegisterForm extends Component {
     return (
       <div>
         <div>
+          <br></br>
           <Header>
             <h1> You Can't Make This Stuff Up </h1>
           </Header>
+          <br></br>
         </div>
         <div className="LoginRegisterForm">
           <Form onSubmit={this.handleSubmit}>
@@ -75,6 +77,8 @@ class LoginRegisterForm extends Component {
               </React.Fragment>
             ) : null}
 
+            <br></br>
+
             <Label>Username:</Label>
             <Divider hidden />
             <Form.Input
@@ -84,6 +88,8 @@ class LoginRegisterForm extends Component {
               onChange={this.handleChange}
             ></Form.Input>
 
+            <br></br>
+
             <Label>Email:</Label>
             <Divider hidden />
             <Form.Input
@@ -92,6 +98,8 @@ class LoginRegisterForm extends Component {
               value={this.state.email}
               onChange={this.handleChange}
             ></Form.Input>
+
+            <br></br>
 
             <Label>Password:</Label>
             <Divider hidden />
@@ -106,6 +114,7 @@ class LoginRegisterForm extends Component {
               {this.state.action === "register" ? "Register" : "Login"}
             </Button>
           </Form>
+          <br></br>
           {this.state.action === "register" ? (
             <small>
               Already have an account? Log in{" "}
@@ -113,8 +122,8 @@ class LoginRegisterForm extends Component {
             </small>
           ) : (
             <small>
-              Need an account? Sign up{" "}
-              <span onClick={this.switchForm}>here</span>!
+              Need an account? Click {" "}
+              <span className="red" onClick={this.switchForm}>here</span> !
             </small>
           )}
         </div>

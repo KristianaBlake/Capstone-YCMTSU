@@ -30,7 +30,7 @@ class CreateSubmission extends Component {
 
 	render() {
 		return (
-			<div >
+			<div className="createForm" >
 				<Form onSubmit={(e) => this.props.createSubmission(e, this.state)}>
 
 			
@@ -61,16 +61,28 @@ class CreateSubmission extends Component {
 	        	/>
 
 	        	<Container>
-		        	<p>
+		        	<p className="disclaimer">
 		        	Disclaimer: 
 		        	All stories are approved by the "You Can't Make This Up" team. No hateful or discriminatory submissions allowed. 
 	        		</p> 
+
+	        	<br></br>
+
 	        	<Form.Checkbox 
 		          label='I agree to the Terms and Conditions'
 		          onChange={this.handleChange}
 	        	/>
 	        	</Container>
+
+	        	<br></br>
+	        	<br></br>
+
 	        	<Button type='submit'>Submit</Button>
+
+	        	<br></br>
+	        	<br></br>
+	        	<br></br>
+
 				</Form> 
 			</div> 
 		)
