@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'semantic-ui-react';
+import { Card, Button } from 'semantic-ui-react';
 
 function SubmissionsList(props){
 	const submissions = props.submissions.map((submission) => {
@@ -10,6 +10,9 @@ function SubmissionsList(props){
 					<Card.Header>{submission.title} </Card.Header>
 					<Card.Description> {submission.category} </Card.Description>
 					<Card.Description> {submission.description} </Card.Description>
+					<Card.Content extra>
+					<Button onClick={() => props.editSubmission(submission.id)}> Edit Submission </Button>
+					</Card.Content>
 				</Card.Content>
 			</Card>
 		);

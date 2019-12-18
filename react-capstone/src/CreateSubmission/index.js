@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 import { Button, Form, Container } from 'semantic-ui-react';
 
-const options = [
-	{ key: 'l', text: 'Life', value: 'life'},
-	{ key: 'fr', text: 'Friends', value: 'friends'},
-	{ key: 'so', text: 'Significant Other', value: 'significant other'},
-	{ key: 'fm', text: 'Family', value: 'family'},
-]
 
 class CreateSubmission extends Component {
 	constructor() {
@@ -33,16 +27,39 @@ class CreateSubmission extends Component {
 			<div className="createForm" >
 				<Form onSubmit={(e) => this.props.createSubmission(e, this.state)}>
 
-			
-				<Form.Select
-		            label='Category'
-		            name='category'
-		            selection
-		            options={options}
-		            // value={this.state.category}
-		            placeholder='Submission Category'
+				 <Form.Group inline>
+		          <label>Category</label>
+		          <Form.Radio
+		          	name='category'
+		            label='Life'
+		            value='Life'
+		            checked={value === 'Life'}
 		            onChange={this.handleChange}
-	          	/>
+		          />
+		          <Form.Radio
+		          	name='category'
+		            label='Friends'
+		            value='Friends'
+		            checked={value === 'Friends'}
+		            onChange={this.handleChange}
+		          />
+		          <Form.Radio
+		          	name='category'
+		            label='Family'
+		            value='Family'
+		            checked={value === 'Family'}
+		            onChange={this.handleChange}
+		          />
+		          <Form.Radio
+		          	name='category'
+		            label='Significant Other'
+		            value='Significant Other'
+		            checked={value === 'Significant Other'}
+		            onChange={this.handleChange}
+		          />
+					
+		        </Form.Group>
+
 	          	<Form.Input
 		            type='text'
 		            label='Title'

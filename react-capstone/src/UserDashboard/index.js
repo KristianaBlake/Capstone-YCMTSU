@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CreateSubmission from "../CreateSubmission";
 import SubmissionsList from "../SubmissionsList";
+import editSubmissionModal from "../EditSubmissionModal";
 // import { Grid } from "semantic-ui-react";
 
 class UserDashboard extends Component {
@@ -10,15 +11,13 @@ class UserDashboard extends Component {
     this.state = {
       loggedInUser: this.props.loggedInUser,
       submissions: [],
-
-      editModalOpen: false,
-
+      
       submissionToEdit: {
         category: "",
         title: "",
-        description: "",
-        anonymous: false 
-      }
+        description: ""
+      },
+      editModalOpen: false,
     };
   }
 
@@ -63,6 +62,49 @@ class UserDashboard extends Component {
             }
         })
     }
+
+  updateSubmission = async newSubmissionInfo => {
+  try {
+    // hit our API to actually update it
+    const url =
+      process.env.REACT_APP_API_URL +
+      "/api/v1/submissions/" +
+      this.state.idOfSubmissionToEdit + "/update";
+
+    const updateResponse = await fetch(url, {
+      method: "PUT",
+      credentials: "include",
+      body: JSON.stringify(newSubmissionInfo),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    const updateResponseParsed = await updateResponse.json();
+
+    const newSubmissionArrayWithUpdate = this.state.submissions.map(course => {
+      if (submission.id === updateResponseParsed.data.id) {
+        submission = updateResponseParsed.data;
+      }
+      return submission;
+    });
+
+    this.setState({
+      editSubmissionModal: false,
+      submissions: newSubmissionArrayWithUpdate
+    });
+    // close the modal
+    this.closeModal();
+  } catch (err) {
+    console.log("cannot update submission")
+  }
+};
+
+closeModal = () => {
+  this.setState({
+    editSubmissionModal: false
+  });
+};
 
   // deleteSubmission = async id => {
   //   const deleteSubmissionResponse = await fetch(
