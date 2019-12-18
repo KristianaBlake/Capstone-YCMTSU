@@ -19,11 +19,9 @@ class User(UserMixin, Model):
 class Submission(Model):
 	title = CharField()
 	description = CharField()
-	category = CharField()
 	status = CharField(default="pending") # default pending
-	anonymous = BooleanField()
 	user_id = ForeignKeyField(User, backref='submissions')
-	created_date = DateTimeField(default=datetime.datetime.now) 
+	
 
 	class Meta:
 		database = DATABASE

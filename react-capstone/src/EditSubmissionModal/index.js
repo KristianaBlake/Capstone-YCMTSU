@@ -12,6 +12,7 @@ class EditSubmissionModal extends React.Component {
   }
 
   componentDidMount() {
+    
     this.setState({
       category: this.props.submissionToEdit.category,
       title: this.props.submissionToEdit.title,

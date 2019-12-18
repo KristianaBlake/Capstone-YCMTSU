@@ -27,39 +27,6 @@ class CreateSubmission extends Component {
 			<div className="createForm" >
 				<Form onSubmit={(e) => this.props.createSubmission(e, this.state)}>
 
-				 <Form.Group inline>
-		          <label>Category</label>
-		          <Form.Radio
-		          	name='category'
-		            label='Life'
-		            value='Life'
-		            checked={value === 'Life'}
-		            onChange={this.handleChange}
-		          />
-		          <Form.Radio
-		          	name='category'
-		            label='Friends'
-		            value='Friends'
-		            checked={value === 'Friends'}
-		            onChange={this.handleChange}
-		          />
-		          <Form.Radio
-		          	name='category'
-		            label='Family'
-		            value='Family'
-		            checked={value === 'Family'}
-		            onChange={this.handleChange}
-		          />
-		          <Form.Radio
-		          	name='category'
-		            label='Significant Other'
-		            value='Significant Other'
-		            checked={value === 'Significant Other'}
-		            onChange={this.handleChange}
-		          />
-					
-		        </Form.Group>
-
 	          	<Form.Input
 		            type='text'
 		            label='Title'

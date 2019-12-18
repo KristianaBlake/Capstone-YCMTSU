@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CreateSubmission from "../CreateSubmission";
 import SubmissionsList from "../SubmissionsList";
-import editSubmissionModal from "../EditSubmissionModal";
+import EditSubmissionModal from "../EditSubmissionModal";
 // import { Grid } from "semantic-ui-react";
 
 class UserDashboard extends Component {
@@ -48,14 +48,25 @@ class UserDashboard extends Component {
         submissions: [...this.state.submissions, parsedResponse.data]
       });
 
+      this.props.seeSubmissions()
+
     } catch (err) {}
   }
 
   editSubmission = idOfSubmissionToEdit => {
-        const submissionToEdit = this.state.submissions.find(
-            submission => submission.id === idOfSubmissionToEdit
-        );
+
+
+    console.log(idOfSubmissionToEdit, "<-- id of submission to edit")
+    console.log(this.props.submissions, "<-- this.props.submissions")
+
+
+
+    const submissionToEdit = this.props.submissions.find(submission => submission.id === idOfSubmissionToEdit);
+
+
+
         this.setState({
+          editSubmissionModal: true, 
             idOfSubmissionToEdit: submissionToEdit.id,
             submissionToEdit: {
                 ...submissionToEdit
@@ -65,7 +76,6 @@ class UserDashboard extends Component {
 
   updateSubmission = async newSubmissionInfo => {
   try {
-    // hit our API to actually update it
     const url =
       process.env.REACT_APP_API_URL +
       "/api/v1/submissions/" +
@@ -82,7 +92,7 @@ class UserDashboard extends Component {
 
     const updateResponseParsed = await updateResponse.json();
 
-    const newSubmissionArrayWithUpdate = this.state.submissions.map(course => {
+    const newSubmissionArrayWithUpdate = this.state.submissions.map(submission => {
       if (submission.id === updateResponseParsed.data.id) {
         submission = updateResponseParsed.data;
       }
@@ -95,6 +105,7 @@ class UserDashboard extends Component {
     });
     // close the modal
     this.closeModal();
+    this.props.seeSubmissions();
   } catch (err) {
     console.log("cannot update submission")
   }
@@ -131,7 +142,9 @@ closeModal = () => {
   
           {this.props.submissions.length > 0 ? 
          
-              <SubmissionsList submissions={this.props.submissions} /> 
+              <SubmissionsList 
+              submissions={this.props.submissions} 
+              editSubmission={this.editSubmission}/> 
           
           : null}
 
@@ -141,74 +154,17 @@ closeModal = () => {
               <h3>Submit a Story</h3>
 
               <CreateSubmission createSubmission={this.createSubmission} /> 
+              { this.state.editSubmissionModal ? 
+              <EditSubmissionModal 
+                
+                editModalOpen={this.state.editSubmissionModal}
+                updateSubmission={this.updateSubmission}
+                submissionToEdit={this.state.submissionToEdit}
+              />
+              : null }
 
         </div>
     )
-    // return (
-    //   <div>
-    //     <Card.Group>
-    //       <Card>
-    //         <Card.Content>
-    //          <Card.Header>{this.props.loggedInUser.username}</Card.Header>
-    //          <Card.Meta>{this.Submission.status}</Card.Meta>
-    //         <Card.Description>
-    //           {this.Submissions.description}
-    //           </Card.Description>
-    //        </Card.Content>
-    //     <Card.Content extra>
-    //     <div className='ui two buttons'>
-    //     <Button basic color='green'>
-    //       Approve
-    //     </Button>
-    //     <Button basic color='red'>
-    //       Decline
-    //     </Button>
-    //     </div>
-    //     </Card.Content>
-    //     </Card>
-    //     <Card>
-    //     <Card.Content>
-  
-    //     <Card.Header>Molly Thomas</Card.Header>
-    //     <Card.Meta>New User</Card.Meta>
-    //     <Card.Description>
-    //     Molly wants to add you to the group <strong>musicians</strong>
-    //     </Card.Description>
-    //     </Card.Content>
-    //     <Card.Content extra>
-    //     <div className='ui two buttons'>
-    //     <Button basic color='green'>
-    //       Approve
-    //     </Button>
-    //     <Button basic color='red'>
-    //       Decline
-    //     </Button>
-    //     </div>
-    //     </Card.Content>
-    //     </Card>
-    //     <Card>
-    //     <Card.Content>
-        
-    //     <Card.Header>Jenny Lawrence</Card.Header>
-    //     <Card.Meta>New User</Card.Meta>
-    //     <Card.Description>
-    //     Jenny requested permission to view your contact details
-    //     </Card.Description>
-    //     </Card.Content>
-    //     <Card.Content extra>
-    //     <div className='ui two buttons'>
-    //     <Button basic color='green'>
-    //       Approve
-    //     </Button>
-    //     <Button basic color='red'>
-    //       Decline
-    //     </Button>
-    //     </div>
-    //     </Card.Content>
-    //     </Card>
-    //     </Card.Group>
-    //   </div>
-    // )
   }
 }
 

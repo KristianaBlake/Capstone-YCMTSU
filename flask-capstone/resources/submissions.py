@@ -81,7 +81,7 @@ def user_dashboard(user_id):
 def create_submission():
 	payload = request.get_json()
 	print(payload)
-	submission = models.Submission.create(title=payload["title"], description=payload["description"], category=payload["category"], user_id=current_user.id)
+	submission = models.Submission.create(title=payload["title"], description=payload["description"], user_id=current_user.id)
 	
 	submission_dict = model_to_dict(submission)
 	print(submission_dict, 'model to dict')
