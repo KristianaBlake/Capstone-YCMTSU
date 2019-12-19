@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CreateSubmission from "../CreateSubmission";
 import SubmissionsList from "../SubmissionsList";
 import EditSubmissionModal from "../EditSubmissionModal";
-// import { Grid } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 
 class UserDashboard extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class UserDashboard extends Component {
       },
 
       editModalOpen: false,
-      
+
     };
   }
 
@@ -26,9 +26,8 @@ class UserDashboard extends Component {
     this.props.seeSubmissions();
   }
 
-  createSubmission = async (e, submissionFromForm) => {
-    //prevents the browser from reloading when an event is called...
-    e.preventDefault();
+  createSubmission = async (submissionFromForm) => {
+   
     try {
       //Call the array of all of the courses in the DB.
       const createdSubmissionResponse = await fetch(
@@ -50,6 +49,7 @@ class UserDashboard extends Component {
       });
 
       this.props.seeSubmissions()
+      
 
     } catch (err) {}
   }
@@ -92,6 +92,7 @@ class UserDashboard extends Component {
     });
 
     const updateResponseParsed = await updateResponse.json();
+    this.props.seeSubmissions();
 
     const newSubmissionArrayWithUpdate = this.state.submissions.map(submission => {
       if (submission.id === updateResponseParsed.data.id) {
@@ -105,17 +106,21 @@ class UserDashboard extends Component {
       submissions: newSubmissionArrayWithUpdate
     });
     // close the modal
-    this.closeModal();
-    this.props.seeSubmissions();
-  } catch (err) {
-    console.log("cannot update submission")
-  }
-}
+    // this.closeModal();
 
-  closeModal = () => {
+    } catch (err) {
+      console.log("cannot update submission")
+    }
+  }
+
+  onClose = () => {
+
+
+    console.log("heyyyyyyyyy");
     this.setState({
       editSubmissionModal: false
     });
+    this.props.seeSubmissions()
   }
 
   deleteSubmission = async id => {
@@ -128,9 +133,12 @@ class UserDashboard extends Component {
     );
 
     const deleteSubmissionParsed = await deleteSubmissionResponse.json();
+    console.log(deleteSubmissionParsed)
     this.setState({
       submissions: this.state.submissions.filter(submission => submission.id !== id)
-    })  
+    })
+
+    this.props.seeSubmissions();  
   }
 
   render() {
@@ -145,9 +153,11 @@ class UserDashboard extends Component {
          
               <SubmissionsList 
               submissions={this.props.submissions} 
-              editSubmission={this.editSubmission}/> 
-          
-          : null}
+              editSubmission={this.editSubmission}
+              deleteSubmission={this.deleteSubmission}
+              /> 
+
+          : null }
 
               <br></br>
               <br></br> 
@@ -159,10 +169,13 @@ class UserDashboard extends Component {
               <EditSubmissionModal 
                 
                 editModalOpen={this.state.editSubmissionModal}
+                onClose={this.onClose}
                 updateSubmission={this.updateSubmission}
                 submissionToEdit={this.state.submissionToEdit}
               />
               : null }
+
+              <Button onClick={this.props.userLogOut}> Log Out </Button>
 
         </div>
     )

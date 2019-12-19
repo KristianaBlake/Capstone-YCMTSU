@@ -8,9 +8,14 @@ function SubmissionsList(props){
 			<Card key={submission.id}>
 				<Card.Content>
 					<Card.Header>{submission.title} </Card.Header>
+					<br></br>
 					<Card.Description> {submission.description} </Card.Description>
+					<br></br>
 					<Card.Content extra>
 					<Button onClick={() => props.editSubmission(submission.id)}> Edit Submission </Button>
+					<br></br>
+					<br></br> 
+					<Button onClick={() => props.deleteSubmission(submission.id)}> Delete Submission </Button>
 					</Card.Content>
 				</Card.Content>
 			</Card>

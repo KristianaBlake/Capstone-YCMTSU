@@ -111,7 +111,7 @@ class App extends React.Component {
     } else {
       console.log(parsedLoginResponse);
     }
-  };
+  }
 
   userLogOut = async () => {
     const response = await fetch(
@@ -134,7 +134,7 @@ class App extends React.Component {
     } else {
       console.log(parsedLoginResponse);
     }
-  };
+  }
 
   seeSubmissions = async () => {
       try {

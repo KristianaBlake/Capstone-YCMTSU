@@ -7,17 +7,27 @@ class CreateSubmission extends Component {
 		super();
 
 		this.state = {
-			category: "",
 			title: "",
-			description: "",
+			description: ""
 		}
 	}
 
 	handleChange = e => {
 
-		console.log(e.currentTarget.name)
-		console.log(e.currentTarget.value)
+		
 		this.setState({[e.currentTarget.name]: e.currentTarget.value});
+	
+	}	
+	handleSubmit = e => {
+
+		e.preventDefault();
+
+		
+		this.props.createSubmission(this.state)
+		this.setState({
+			title: "",
+			description: ""
+		});
 	}
 
 
@@ -25,7 +35,7 @@ class CreateSubmission extends Component {
 	render() {
 		return (
 			<div className="createForm" >
-				<Form onSubmit={(e) => this.props.createSubmission(e, this.state)}>
+				<Form onSubmit={this.handleSubmit}>
 
 	          	<Form.Input
 		            type='text'
