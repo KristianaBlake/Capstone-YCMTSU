@@ -5,7 +5,6 @@ class EditSubmissionModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      category: "",
       title: "",
       description: ""
     };
@@ -14,7 +13,6 @@ class EditSubmissionModal extends React.Component {
   componentDidMount() {
     
     this.setState({
-      category: this.props.submissionToEdit.category,
       title: this.props.submissionToEdit.title,
       description: this.props.submissionToEdit.description
     });
@@ -41,14 +39,6 @@ class EditSubmissionModal extends React.Component {
         <Header>Edit Submission</Header>
         <Modal.Content>
           <Form onSubmit={this.handleSubmit}>
-            <Label> Category: </Label>
-            <Form.Input
-              type="text"
-              name="category"
-              value={this.state.category}
-              onChange={this.handleChange}
-            />
-
             <Label> Title: </Label>
             <Form.Input
               type="text"

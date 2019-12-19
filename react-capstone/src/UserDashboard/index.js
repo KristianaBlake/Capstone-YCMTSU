@@ -13,11 +13,12 @@ class UserDashboard extends Component {
       submissions: [],
       
       submissionToEdit: {
-        category: "",
         title: "",
         description: ""
       },
+
       editModalOpen: false,
+      
     };
   }
 
@@ -109,28 +110,28 @@ class UserDashboard extends Component {
   } catch (err) {
     console.log("cannot update submission")
   }
-};
+}
 
-closeModal = () => {
-  this.setState({
-    editSubmissionModal: false
-  });
-};
+  closeModal = () => {
+    this.setState({
+      editSubmissionModal: false
+    });
+  }
 
-  // deleteSubmission = async id => {
-  //   const deleteSubmissionResponse = await fetch(
-  //     process.env.REACT_APP_API_URL + "/api/v1/submissions/" + id + "/delete",
-  //     {
-  //       credentials: "include",
-  //       method: "DELETE"
-  //     }
-  //   );
+  deleteSubmission = async id => {
+    const deleteSubmissionResponse = await fetch(
+      process.env.REACT_APP_API_URL + "/api/v1/submissions/" + id + "/delete",
+      {
+        credentials: "include",
+        method: "DELETE"
+      }
+    );
 
-  //   const deleteSubmissionParsed = await deleteSubmissionResponse.json();
-  //   this.setState({
-  //     submissions: this.state.submissions.filter(submission => submission.id !== id)
-  //   })  
-  // }
+    const deleteSubmissionParsed = await deleteSubmissionResponse.json();
+    this.setState({
+      submissions: this.state.submissions.filter(submission => submission.id !== id)
+    })  
+  }
 
   render() {
     return (
