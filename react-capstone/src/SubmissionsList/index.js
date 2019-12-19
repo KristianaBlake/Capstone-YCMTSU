@@ -32,9 +32,3 @@ function SubmissionsList(props){
 }
 
 export default SubmissionsList; 
-				// <Card.Content extra>
-				// 	<Button basic color='pink' onClick={() => props.deleteSubmission(submission.id)}> Delete Submission </Button>
-				// 	<Button basic color='pink' onClick={() => props.editSubmission(submission.id)}> Edit Submission </Button>
-				// </Card.Content>
-				// Add Button from semantic UI 
-					// <Card.Description> {submission.category} </Card.Description>

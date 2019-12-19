@@ -34,14 +34,6 @@ class App extends React.Component {
 
     const parsedLoginResponse = await response.json();
 
-    // if the response if cleared
-    if (parsedLoginResponse.data.username === "administrator") {
-      this.setState({
-        isAdministrator: true,
-        loggedInUser: this.state.loggedInUser
-      });
-    } else {
-      // if the response is good 
       if (response.ok) {
         this.setState({
           loggedIn: true,
@@ -51,7 +43,7 @@ class App extends React.Component {
         console.log(parsedLoginResponse);
       }
     }
-  }
+  
 
   // create a route to login 
   login = async loginInfo => {
@@ -68,16 +60,7 @@ class App extends React.Component {
       }
     )
 
-    const parsedLoginResponse = await response.json();
-
-    if (parsedLoginResponse.data.username === "administrator") {
-      this.setState({
-        isAdministrator: true, 
-        loggedInUser: this.state.loggedInUser
-      })
-
-    } else {
-      // if the reponse is good 
+    const parsedLoginResponse = await response.json(); 
       if (parsedLoginResponse.status.code === 200) {
         this.setState({
           loggedIn: true, 
@@ -88,30 +71,6 @@ class App extends React.Component {
         console.log(parsedLoginResponse);
       }
     }
-  }
-
-  administratorLogout = async () => {
-    const response = await fetch(
-      process.env.REACT_APP_API_URL + "api/v1/users/logout",
-      {
-        method: "GET",
-        credentials: "include",
-        body: JSON.stringify(),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    );
-    const parsedLoginResponse = await response.json();
-
-    if (parsedLoginResponse.status.code === 200) {
-      this.setState({
-        isAdministrator: false
-      });
-    } else {
-      console.log(parsedLoginResponse);
-    }
-  }
 
   userLogOut = async () => {
     const response = await fetch(
@@ -159,12 +118,7 @@ class App extends React.Component {
 
 render() {
   const componentToRender = () => {
-    // if they are the administrator, take them to the administrator dashboard 
-    if (this.state.isAdministrator) {
-      return (
-        <h1>Placeholder Return</h1>
-        )
-    } else if (this.state.loggedIn) {
+   if (this.state.loggedIn) {
       return (
         // if they are a User, bring them to the User dashboard
         <UserDashboard 
@@ -172,6 +126,7 @@ render() {
           userLogout={this.userLogOut}
           seeSubmissions={this.seeSubmissions}
           submissions={this.state.submissions}
+          userLogout={this.state.userLogOut}
         />
       );
     } else {
@@ -183,11 +138,7 @@ render() {
   };
   return <div className="App">{componentToRender()}</div>;
 };
+
 }
 
-
 export default App;
-        // <AdminDashboard
-        // loggedInUser={this.state.loggedInUser}
-        // administratorLogout={this.administratorLogout}
-        // />

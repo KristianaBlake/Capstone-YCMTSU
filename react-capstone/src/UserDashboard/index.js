@@ -105,8 +105,6 @@ class UserDashboard extends Component {
       editSubmissionModal: false,
       submissions: newSubmissionArrayWithUpdate
     });
-    // close the modal
-    // this.closeModal();
 
     } catch (err) {
       console.log("cannot update submission")
@@ -114,9 +112,7 @@ class UserDashboard extends Component {
   }
 
   onClose = () => {
-
-
-    console.log("heyyyyyyyyy");
+    
     this.setState({
       editSubmissionModal: false
     });

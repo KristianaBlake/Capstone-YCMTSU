@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Label, Header, Modal, Icon } from "semantic-ui-react";
+import { Form, Button, Label, Header, Modal } from "semantic-ui-react";
 
 class EditSubmissionModal extends React.Component {
   constructor(props) {
@@ -32,9 +32,7 @@ class EditSubmissionModal extends React.Component {
   render() {
     return (
       <Modal closeIcon onClose={this.props.onClose}
-        open={this.props.editModalOpen}
-        
-      >
+        open={this.props.editModalOpen} >
         <Header>Edit Submission</Header>
         <Modal.Content>
           <Form onSubmit={this.handleSubmit}>
