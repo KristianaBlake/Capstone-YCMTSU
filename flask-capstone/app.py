@@ -1,3 +1,4 @@
+import os 
 from flask import Flask, jsonify, g
 from flask_cors import CORS 
 from flask_login import LoginManager 
@@ -45,6 +46,10 @@ def after_request(response):
 	# "Close the database connection after each request"
 	g.db.close()
 	return response
+
+if 'ON_HEROKU' in os.environ: 
+  print('\non heroku!')
+  models.initialize()
 
 # to test that this is actually working 
 @app.route('/')
