@@ -47,9 +47,9 @@ def after_request(response):
 	g.db.close()
 	return response
 
-if 'ON_HEROKU' in os.environ: 
-  print('\non heroku!')
-  models.initialize()
+if 'ON_HEROKU' in os.environ:
+	print('\non heroku!')
+	models.initialize()
 
 # to test that this is actually working 
 @app.route('/')
