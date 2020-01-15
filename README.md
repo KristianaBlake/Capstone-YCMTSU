@@ -1,14 +1,24 @@
 # Capstone-"You Can't Make This Stuff Up"
 Capstone for GA 
-- "You Can't Make This Stuff Up" is a forum where real people can submit real stories about real life. 
+- "You Can't Make This Stuff Up" is an application where real people can create real stories about real life. 
+
+###### User registers for "You Can't Make This Stuff Up"
+- User must register in order to log into "You Can't Make This Stuff Up". 
+- After User registers, User can login. Once logged in, User can log out. 
+
+###### User creates a story
+- User can write their own story, edit and delete it. 
+- After a User creates a story, they can see their story on their dashboard. 
+
+##### Stretch Goals:
 
 ###### User visits "You Can't Make This Stuff Up"
 - User clicks on "Life", "Friends", "Family" or "Signficiant Other" buttons to see short stories related to fields.
-- In order to "like" or comment on posts, User needs to register and login. Unless the user is already registered, he/she can just      login.  
+- In order to "like" or comment on posts, User needs to register and login. Unless the user is already registered, he/she can just login.
 
 ###### User registers for "You Can't Make This Stuff Up"
-- User is informed that he/she can submit short stories to a selected category after story has passed approval. 
-- After User registers, User can login. Once logged in, User can log out. 
+- User is informed that he/she can submit short stories to a selected category after story has passed approval.
+- After User registers, User can login. Once logged in, User can log out.
 
 ###### User submits story 
 - User can submit a story as anonymous, but email must be included in order to receive approval or denial of submission. 
@@ -31,7 +41,7 @@ Capstone for GA
   - If story is approved by the Administrator, the story will appear on the page of chosen category. 
  
 
-###### Strech Goal 
+###### API 
 - Implement email API 
 
 
