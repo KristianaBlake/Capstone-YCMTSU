@@ -54,7 +54,7 @@ if 'ON_HEROKU' in os.environ:
 # to test that this is actually working 
 @app.route('/')
 def index():
-	return 'Hello, world!'
+	return 'Deployed to Heroku!'
 
 if __name__ == '__main__':
 	models.initialize()
